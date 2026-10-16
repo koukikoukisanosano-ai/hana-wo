@@ -155,7 +155,7 @@ def write_next(cfg, db, root: Path) -> list[str]:
     from .sources import phone
     tmpl = cfg["hall"].get("anaslo_day_url",
                            "https://ana-slo.com/{date}-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/")
-    n = int(cfg.get("phone", {}).get("pages_per_run", 4))
+    n = int(cfg.get("phone", {}).get("pages_per_run", 6))
     urls = phone.next_urls(db, today_jst(), tmpl, n=n)
     txt = "\n".join(urls) + ("\n" if urls else "")
     (root / "data" / "next.txt").write_text(txt, encoding="utf-8")
@@ -235,7 +235,7 @@ def cmd_predict(cfg, db, root: Path, target: Date, open_browser=False) -> Path |
     pred_dir = root / "data" / "predictions"
     path = R.build(m, pred, target, cfg["hall"].get("name", ""), cfg["predict"].get("top_n", 10),
                    load_backtest(root), db.coverage(), root / "output", extra_warns=status_warnings(root),
-                   pred_dir=pred_dir)
+                   pred_dir=pred_dir, info_line=status_line(root))
     if cfg.get("storage") == "csv":   # 答え合わせ用に予想を保存
         pred_dir.mkdir(parents=True, exist_ok=True)
         pred[["rank", "unit", "score"]].round(4).to_csv(pred_dir / f"{target:%Y-%m-%d}.csv", index=False)
@@ -245,6 +245,17 @@ def cmd_predict(cfg, db, root: Path, target: Date, open_browser=False) -> Path |
     if open_browser:
         webbrowser.open((root / "output" / "latest.html").resolve().as_uri())
     return path
+
+
+def status_line(root: Path) -> str:
+    p = root / "data" / "status.json"
+    try:
+        st = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return ""
+    if st.get("mode") == "phone":
+        return f"iPhoneからの最終受信: {st.get('phone_last', 'まだありません')}" + (f"（{st['phone_message']}）" if st.get('phone_message') else "")
+    return ""
 
 
 def status_warnings(root: Path) -> list[str]:

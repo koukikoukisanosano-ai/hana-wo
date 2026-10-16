@@ -165,7 +165,7 @@ def check_section(hist: pd.DataFrame, pred_dir: Path | None, target: Date, top_k
 
 def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_n: int,
           bt: dict | None, cov: dict, out_dir: Path, extra_warns: list[str] | None = None,
-          pred_dir: Path | None = None) -> Path:
+          pred_dir: Path | None = None, info_line: str = "") -> Path:
     cfg = model.cfg
     info = M.target_day_info(target, cfg)
     hist = model.hist
@@ -297,6 +297,7 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
     from datetime import timedelta, timezone
     now_jst = datetime.now(timezone(timedelta(hours=9)))
     foot = (f"<footer>{E(cov_txt)}／取得元: アナスロ・みんレポ（公開データ）／作成 {now_jst:%Y-%m-%d %H:%M}<br>"
+            + (f"{E(info_line)}<br>" if info_line else "") +
             "この予想は公開データから計算した確率であり、結果を保証するものではありません。遊技は余裕のある範囲でお楽しみください。</footer>")
 
     doc = (f"<!doctype html><html lang='ja'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"

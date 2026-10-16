@@ -135,4 +135,6 @@ def next_urls(db, today: Date, url_tmpl: str, n: int = 4, window_days: int = 390
         out.append(url_tmpl.format(date=key))
         if len(out) >= n:
             break
+    if not out:   # 空だとiPhoneのショートカットがエラーになるので、前日分を1件だけ入れておく
+        out.append(url_tmpl.format(date=(today - timedelta(days=1)).isoformat()))
     return out
