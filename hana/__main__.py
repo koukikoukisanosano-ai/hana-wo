@@ -109,7 +109,10 @@ def cmd_update(cfg, db, max_pages=None, deadline=None) -> dict:
         write_status(C.ROOT, anaslo_checked=now, anaslo_result="blocked", anaslo_message=f"アクセスを拒否されました（{e}）")
     except Exception as e:
         log.error("アナスロの取得でエラー: %s", e)
-        write_status(C.ROOT, anaslo_checked=now, anaslo_result="error", anaslo_message=str(e)[:200])
+        msg = str(e)
+        if any(k in msg for k in ("ConnectionError", "ProxyError", "Max retries", "timed out", "NameResolution")):
+            msg = "サイトに接続できませんでした"
+        write_status(C.ROOT, anaslo_checked=now, anaslo_result="error", anaslo_message=msg[:120])
     # みんレポ: アナスロの最新日より新しい日があれば補完
     try:
         cov = db.coverage()
