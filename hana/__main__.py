@@ -346,8 +346,12 @@ def main(argv=None) -> int:
     elif a.cmd == "import-seed":
         cmd_import_seed(db, root)
     elif a.cmd == "diag":
-        from . import diag
+        from . import diag, diag_tera
         r = diag.run(root)
+        try:
+            diag_tera.run(root)
+        except Exception as e:
+            log.warning("公式サイト調査でエラー: %s", e)
         log.info("診断: %s", json.dumps(r, ensure_ascii=False)[:1500])
     if csv_mode and a.cmd in ("update", "backfill", "daily", "minrepo-history", "import-seed"):
         db.export_csv(root / "data", keyword=cfg["target"].get("keyword", "ハナハナ"))
