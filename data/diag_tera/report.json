@@ -1,0 +1,594 @@
+{
+ "steps": [
+  {
+   "name": "01_entry",
+   "url": "https://ogiya.pt.teramoba2.com/wo/rack_info",
+   "title": "",
+   "text": "サイトを閲覧する",
+   "links": [
+    [
+     "",
+     "https://ogiya.pt.teramoba2.com/wo/rack_info#frame-container"
+    ]
+   ]
+  },
+  {
+   "name": "02_after_enter",
+   "url": "https://ogiya.pt.teramoba2.com/wo/rack_info",
+   "title": "",
+   "text": "現在の接続環境では本サービスをご利用いただけません。\n\n当サイトではセキュリティ対策のため、\nVPN・プロキシサーバーを経由したアクセスや、Torブラウザを使用したアクセスを制限しています。\n\n閲覧を続ける場合は、各設定を解除のうえ、再度アクセスをお試しください。\n\n※環境によっては、以下の操作を行うことで閲覧可能になる場合がございます。\n\n■スマートフォンをご利用の場合\n・Wi-FiをOFFにしてモバイル回線で接続する\n・VPNアプリ（セキュリティアプリ等）をOFFする\n・Torブラウザでない、別のブラウザを使用する\n\n■パソコンをご利用の場合\n・VPN／セキュリティソフトのVPN接続をOFFする\n・ブラウザのプロキシ設定をOFFする\n・別回線（スマホテザリング等）で接続する\n・Torブラウザでない、別のブラウザを使用する\n\nお客様のIPアドレス：172.215.209.67",
+   "links": [
+    [
+     "",
+     "https://ogiya.pt.teramoba2.com/wo/rack_info#frame-container"
+    ]
+   ]
+  }
+ ],
+ "network": [
+  {
+   "url": "https://ogiya.pt.teramoba2.com/wo/rack_info/",
+   "status": 200,
+   "type": "text/html; charset=utf-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://static.line-scdn.net/liff/edge/2/sdk.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/build/assets/MaintenancePage-16c5bfea.js",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js",
+   "status": 200,
+   "type": "application/javascript; charset=utf-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/build/assets/app-a83fb3d3.js",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery-ui.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/scrolltopcontrol.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/crypto.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/script.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery.ui.touch-punch.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/teram2_link.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/history.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/hall_computer_select.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery.tablesorter.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery.metadata.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/telopline.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.barRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.dateAxisRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/excanvas.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.canvasOverlay.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.pointLabels.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/velocity.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/jquery.jqplot.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://works.gsspcln.jp/w/ad_format/deliveryRestrict.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://asking.marketingconnect.jp/js/tracker/tracker.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://www.google-analytics.com/analytics.js",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://www.googletagmanager.com/gtag/js?id=G-L9XWZKCXMP",
+   "status": 200,
+   "type": "application/javascript; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-L9XWZKCXMP&gtm=45je6af0h2v9102605844za208zd9102605844xf1&_p=1792189182432&gcd=13l3l3l3l1l1&npa=0&dma=0&cid=1257753917.1792189182&frm=0&ngs=1&pscdl=noapi&rcb=15&sr=390x844&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B8.0.0.0%7CChromium%3B156.0.8078.4%7CHeadlessChrome%3B156.0.8078.4&uam=&uamb=0&uap=Windows&uapv=10.0&uaw=0&ul=ja-jp&_s=1&tag_exp=115616985~115938466~115938468~118897920~118897930~120213116~120385422~120412527~120469145~120469153~121246026~121246034&sid=1792189182&sct=1&seg=0&dl=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&dt=&_tu=QA&en=page_view&_fv=1&_ss=1&_ee=1&up.dim1=927&up.dim2=&up.dim3=&up.dim4=&up.dim5=none&up.dim6=none&up.dim7=wo&up.dim8=rack_info&up.dim9=&up.dim10=&tfd=1042",
+   "status": 204,
+   "type": "text/plain",
+   "method": "POST"
+  },
+  {
+   "url": "https://ogiya.pt.teramoba2.com/n-api/log-scraper",
+   "status": 200,
+   "type": "text/html; charset=utf-8",
+   "method": "POST"
+  },
+  {
+   "url": "https://cpt.geniee.jp/hb/v1/217450/959/wrapper.min.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://cpt.geniee.jp/hb/v1/lib/prebid-v11.40.0-6a961093.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://cpt.geniee.jp/hb/v1/lib/gnshbrequest-v5.38.0.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://yads.c.yimg.jp/js/yads-async.js",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://securepubads.g.doubleclick.net/tag/js/gpt.js",
+   "status": 200,
+   "type": "text/javascript; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://cdn.jsdelivr.net/gh/prebid/currency-file@1/latest.json?date=20261017",
+   "status": 200,
+   "type": "application/json; charset=utf-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://sp-gn.com/u",
+   "status": 200,
+   "type": "application/javascript; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://securepubads.g.doubleclick.net/pagead/managed/dict/m202610150101/gpt",
+   "status": 200,
+   "type": "text/plain; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202610130101/pubads_impl.js?cb=122881606",
+   "status": 200,
+   "type": "text/javascript; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://securepubads.g.doubleclick.net/pagead/purl_config?url=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&puc_types=2%3A4&pppnc=9116787",
+   "status": 200,
+   "type": "application/json; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://cpt.geniee.jp/hb/v1/policy-check?loc=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&list_id=mid-217450&gam_id=gam-9116787",
+   "status": 200,
+   "type": "application/json",
+   "method": "GET"
+  },
+  {
+   "url": "https://aladdin.genieesspv.jp/yie/ld/api/ad_call/v2?zoneid=1539698&cb=39466145887&charset=UTF-8&loc=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&ct0=undefined&referer=undefined&topframe=1&cur=JPY&requestid=7a143d01-cc6a-415a-8455-ec38cb3b5239&ua=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F129.0%20Safari%2F537.36&tpaf=1&cks=1&ib=0&tmpval=%7B%22loctype%22%3A%22type1%22%2C%22pvId%22%3A%22e74f9a69-1e2d-4787-8352-95972032f71d%22%7D&gpid=%2F217450%2F1539698&rl_pid=37126&sw=390&sh=844&ucmbl=%3F0",
+   "status": 200,
+   "type": "application/json; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://ogiya.pt.teramoba2.com/wo/rack_info",
+   "status": 200,
+   "type": "text/html; charset=utf-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/build/assets/app-a83fb3d3.js",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://static.line-scdn.net/liff/edge/2/sdk.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery-ui.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery.ui.touch-punch.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/scrolltopcontrol.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/crypto.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/script.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/teram2_link.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/telopline.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/history.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/hall_computer_select.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery.tablesorter.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jquery.metadata.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/jquery.jqplot.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/excanvas.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.dateAxisRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.barRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.canvasOverlay.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/jqplot/plugins/jqplot.pointLabels.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/static_contents/js/velocity.min.js?v=20261014084125",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js",
+   "status": 200,
+   "type": "application/javascript; charset=utf-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://asking.marketingconnect.jp/js/tracker/tracker.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://cpt.geniee.jp/hb/v1/217450/959/wrapper.min.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://works.gsspcln.jp/w/ad_format/deliveryRestrict.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://yads.c.yimg.jp/js/yads-async.js",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://cpt.geniee.jp/hb/v1/lib/prebid-v11.40.0-6a961093.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://cpt.geniee.jp/hb/v1/lib/gnshbrequest-v5.38.0.js",
+   "status": 200,
+   "type": "application/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://sp-gn.com/u",
+   "status": 200,
+   "type": "application/javascript; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://securepubads.g.doubleclick.net/tag/js/gpt.js",
+   "status": 200,
+   "type": "text/javascript; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202610130101/pubads_impl.js?cb=122881606",
+   "status": 200,
+   "type": "text/javascript; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://cpt.geniee.jp/hb/v1/policy-check?loc=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&list_id=mid-217450&gam_id=gam-9116787",
+   "status": 200,
+   "type": "application/json",
+   "method": "GET"
+  },
+  {
+   "url": "https://cdn.jsdelivr.net/gh/prebid/currency-file@1/latest.json?date=20261017",
+   "status": 200,
+   "type": "application/json; charset=utf-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://www.googletagmanager.com/gtag/js?id=G-L9XWZKCXMP",
+   "status": 200,
+   "type": "application/javascript; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://www.google-analytics.com/analytics.js",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://securepubads.g.doubleclick.net/pagead/managed/dict/m202610150101/gpt",
+   "status": 200,
+   "type": "text/plain; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-L9XWZKCXMP&gtm=45je6af0h2v9102605844za208zd9102605844xf1&_p=1792189185103&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAAAAQ&cid=1257753917.1792189182&frm=0&ngs=1&pscdl=noapi&rcb=3&sr=390x844&uaa=x86&uab=64&uafvl=Not%253AA-Brand%3B8.0.0.0%7CChromium%3B156.0.8078.4%7CHeadlessChrome%3B156.0.8078.4&uam=&uamb=0&uap=Windows&uapv=10.0&uaw=0&ul=ja-jp&_s=1&tag_exp=115616985~115938465~115938469~118897920~118897930~120032689~120213116~120385423~120469145~120469153~121246026~121246034&sid=1792189182&sct=1&seg=1&dl=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&dr=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&dt=http%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&_tu=QA&en=page_view&_ee=1&up.dim1=927&up.dim2=&up.dim3=&up.dim4=&up.dim5=none&up.dim6=none&up.dim7=wo&up.dim8=rack_info&up.dim10=&tfd=484",
+   "status": 204,
+   "type": "text/plain",
+   "method": "POST"
+  },
+  {
+   "url": "https://aladdin.genieesspv.jp/yie/ld/api/ad_call/v2?zoneid=1539698&cb=18887064507&charset=UTF-8&loc=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&ct0=undefined&referer=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&topframe=1&cur=JPY&requestid=cc01df3d-bcaf-457e-bd6c-71c90726ea54&ua=Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F129.0%20Safari%2F537.36&tpaf=1&cks=1&ib=0&tmpval=%7B%22loctype%22%3A%22type1%22%2C%22pvId%22%3A%22b915e209-0a11-4102-98ce-c60c0d6b8c10%22%7D&gpid=%2F217450%2F1539698&rl_pid=37126&title=http%253A%252F%252Fogiya.pt.teramoba2.com%252Fwo%252Frack_info&sw=390&sh=844&ucmbl=%3F0",
+   "status": 200,
+   "type": "application/json; charset=UTF-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://common-t2-cdn.itscc.biz/build/assets/UnsupportedDevicePage-9c09d57b.js",
+   "status": 200,
+   "type": "text/javascript",
+   "method": "GET"
+  },
+  {
+   "url": "https://ogiya.pt.teramoba2.com/n-api/log-scraper",
+   "status": 200,
+   "type": "text/html; charset=utf-8",
+   "method": "POST"
+  },
+  {
+   "url": "https://aladdin.genieesspv.jp/yie/ld/cshtml?zoneid=1539698&ua=Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F129.0+Safari%2F537.36&loc=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info",
+   "status": 200,
+   "type": "text/html",
+   "method": "GET"
+  },
+  {
+   "url": "https://gum.criteo.com/sid/json?origin=prebid&topUrl=https%3A%2F%2Fogiya.pt.teramoba2.com%2F&domain=ogiya.pt.teramoba2.com&cw=1&lsw=1",
+   "status": 200,
+   "type": "application/json; charset=utf-8",
+   "method": "GET"
+  },
+  {
+   "url": "https://sync6.im-apps.net/3929/pid?page=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info&ref=https%3A%2F%2Fogiya.pt.teramoba2.com%2Fwo%2Frack_info",
+   "status": 200,
+   "type": "application/json",
+   "method": "GET"
+  },
+  {
+   "url": "https://cs.gssprt.jp/yie/ld/mcs?ver=1&dspid=appier&format=gif&vid=1",
+   "status": 302,
+   "type": "application/octet-stream",
+   "method": "GET"
+  },
+  {
+   "url": "https://cs.gssprt.jp/yie/ld/mcs?ver=1&dspid=lamp&format=gif&vid=1",
+   "status": 302,
+   "type": "application/octet-stream",
+   "method": "GET"
+  }
+ ]
+}
