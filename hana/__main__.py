@@ -136,8 +136,14 @@ def cmd_minrepo_recent(cfg, db, stats: dict) -> dict:
 
 def cmd_inbox(cfg, db, root: Path) -> dict:
     """iPhone から届いたデータを取り込み、次に取りに行くページの一覧を更新する。"""
-    from .sources import phone
+    from .sources import gh_inbox, phone
     st = phone.process(db, root)
+    try:
+        num = gh_inbox.process(db, st)
+        if num:
+            write_status(root, inbox_issue=num)
+    except Exception as e:
+        log.warning("受信箱(Issue)の確認でエラー: %s", e)
     now = datetime.now(JST).strftime("%Y-%m-%d %H:%M")
     if st["files"]:
         result = "ok" if st["days"] else ("blocked" if st["blocked"] else "nodata")
@@ -157,7 +163,7 @@ def write_next(cfg, db, root: Path) -> list[str]:
                            "https://ana-slo.com/{date}-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/")
     n = int(cfg.get("phone", {}).get("pages_per_run", 6))
     urls = phone.next_urls(db, today_jst(), tmpl, n=n)
-    txt = "\n".join(urls) + ("\n" if urls else "")
+    txt = "\n".join(urls)          # 末尾に改行を付けない（iPhone側で空の行がエラーになるため）
     (root / "data" / "next.txt").write_text(txt, encoding="utf-8")
     (root / "output").mkdir(exist_ok=True)
     (root / "output" / "next.txt").write_text(txt, encoding="utf-8")
@@ -390,8 +396,7 @@ def main(argv=None) -> int:
         cmd_predict(cfg, db, root, today_jst())
         write_next(cfg, db, root)
     elif a.cmd == "daily":
-        if (root / "inbox").exists():
-            cmd_inbox(cfg, db, root)
+        cmd_inbox(cfg, db, root)
         if fetch_ok:
             cmd_update(cfg, db)
         if today_jst().weekday() == 0 or load_backtest(root) is None:   # 週1回 検証を更新

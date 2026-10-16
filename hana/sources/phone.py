@@ -65,42 +65,48 @@ def parse_blob(text: str) -> dict:
     return {"url": url, "date": date, "title": title, "kind": kind, "rows": rows, "total": total}
 
 
-def process(db, root: Path) -> dict:
+def new_stats() -> dict:
+    return {"files": 0, "days": 0, "rows": 0, "blocked": 0, "notfound": 0, "dates": []}
+
+
+def handle_blob(db, text: str, stats: dict, label: str = "") -> None:
+    """iPhoneから届いた1ページ分（1行目URL＋照合結果）を取り込む。"""
+    stats["files"] += 1
+    info = parse_blob(text)
+    d = info["date"]
+    if not d:
+        log.warning("受信 %s: URLから日付が分かりません（%s）", label, info["url"][:80])
+        return
+    if info["kind"] == "ok":
+        n = db.upsert_units(info["rows"], SOURCE)
+        if info["total"]:
+            db.upsert_hall_days([info["total"]], SOURCE)
+        db.log_fetch(d, SOURCE, "ok" if n else "empty", n)
+        stats["days"] += 1
+        stats["rows"] += n
+        stats["dates"].append(d)
+        log.info("iPhoneから受信: %s ハナハナ %d台", d, n)
+    elif info["kind"] == "blocked":
+        stats["blocked"] += 1
+        db.log_fetch(d, SOURCE, "blocked", 0)
+        log.warning("iPhoneから受信: %s は中身が空でした（アクセス拒否の可能性）", d)
+    else:
+        stats["notfound"] += 1
+        db.log_fetch(d, SOURCE, "empty", 0)
+        log.info("iPhoneから受信: %s はデータなし（%s）", d, info["title"][:40])
+
+
+def process(db, root: Path, stats: dict | None = None) -> dict:
+    """inbox/ フォルダに置かれたファイルを取り込む（予備の受け取り口）。"""
+    stats = stats or new_stats()
     inbox = root / "inbox"
-    stats = {"files": 0, "days": 0, "rows": 0, "blocked": 0, "notfound": 0, "dates": []}
     if not inbox.exists():
         return stats
-    files = sorted(p for p in inbox.iterdir() if p.is_file() and not p.name.startswith("."))
-    for p in files:
-        stats["files"] += 1
+    for p in sorted(x for x in inbox.iterdir() if x.is_file() and not x.name.startswith(".")):
         try:
-            info = parse_blob(p.read_text(encoding="utf-8", errors="replace"))
+            handle_blob(db, p.read_text(encoding="utf-8", errors="replace"), stats, p.name)
         except Exception as e:
             log.warning("受信ファイル %s を読めませんでした: %s", p.name, e)
-            p.unlink()
-            continue
-        d = info["date"]
-        if not d:
-            log.warning("受信ファイル %s: URLから日付が分かりません（%s）", p.name, info["url"][:80])
-            p.unlink()
-            continue
-        if info["kind"] == "ok":
-            n = db.upsert_units(info["rows"], SOURCE)
-            if info["total"]:
-                db.upsert_hall_days([info["total"]], SOURCE)
-            db.log_fetch(d, SOURCE, "ok" if n else "empty", n)
-            stats["days"] += 1
-            stats["rows"] += n
-            stats["dates"].append(d)
-            log.info("iPhoneから受信: %s ハナハナ %d台", d, n)
-        elif info["kind"] == "blocked":
-            stats["blocked"] += 1
-            db.log_fetch(d, SOURCE, "blocked", 0)
-            log.warning("iPhoneから受信: %s は中身が空でした（アクセス拒否の可能性）", d)
-        else:
-            stats["notfound"] += 1
-            db.log_fetch(d, SOURCE, "empty", 0)
-            log.info("iPhoneから受信: %s はデータなし（%s）", d, info["title"][:40])
         p.unlink()
     return stats
 

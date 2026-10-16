@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: '41 22 * * *'    # 毎朝 7:41（日本時間）: 今日の予想ページを作成
     - cron: '41 13 * * *'    # 毎晩 22:41（日本時間）: iPhoneが翌朝取りに行くページの一覧を更新
+  issue_comment:
+    types: [created]                         # iPhoneからデータが届いたとき
   push:
     branches: [main]
     paths: ['inbox/**', 'hana/**', 'config.yaml', 'requirements.txt', '.github/workflows/**']
@@ -17,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pages: write
   id-token: write
 
@@ -26,11 +29,14 @@ concurrency:
 
 jobs:
   run:
+    # コメントで起動したときは、持ち主のコメントだけ処理する
+    if: github.event_name != 'issue_comment' || github.event.comment.user.login == github.repository_owner
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
       TZ: Asia/Tokyo
       PYTHONUTF8: '1'
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
 
