@@ -9,7 +9,7 @@ on:
       mode:
         description: 'daily=取得して予想 / backfill=過去データ取得 / predict=予想だけ作り直す'
         type: choice
-        options: [daily, backfill, predict]
+        options: [daily, backfill, predict, diag]
         default: daily
   push:
     branches: [main]
@@ -55,10 +55,14 @@ jobs:
             fi
           fi
           echo "実行モード: $MODE"
+          if [ "${{ github.event_name }}" = "push" ] || [ "$MODE" = "diag" ]; then
+            python -m hana diag || true
+          fi
           case "$MODE" in
             daily)    python -m hana daily ;;
             backfill) python -m hana backfill --max-minutes 45 ;;
             predict)  python -m hana predict ;;
+            diag)     python -m hana predict ;;
           esac
           python -m hana status
 

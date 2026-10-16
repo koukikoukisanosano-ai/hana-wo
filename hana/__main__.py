@@ -271,6 +271,7 @@ def main(argv=None) -> int:
     p.add_argument("--hours", type=float, default=3)
     sub.add_parser("status")
     sub.add_parser("import-seed")
+    sub.add_parser("diag")
     a = ap.parse_args(argv)
 
     root = C.ROOT
@@ -344,6 +345,10 @@ def main(argv=None) -> int:
         print("アナスロ未取得:", len(set(db.index("anaslo")) - db.fetched_dates("anaslo")), "日")
     elif a.cmd == "import-seed":
         cmd_import_seed(db, root)
+    elif a.cmd == "diag":
+        from . import diag
+        r = diag.run(root)
+        log.info("診断: %s", json.dumps(r, ensure_ascii=False)[:1500])
     if csv_mode and a.cmd in ("update", "backfill", "daily", "minrepo-history", "import-seed"):
         db.export_csv(root / "data", keyword=cfg["target"].get("keyword", "ハナハナ"))
         log.info("データを保存しました")
