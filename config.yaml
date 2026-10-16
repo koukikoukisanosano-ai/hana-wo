@@ -1,0 +1,29 @@
+# ハナハナ予想システム（オーギヤWO）クラウド版 設定ファイル
+# iPhoneのGitHubアプリやSafariからこのファイルを編集すると、次回の実行から反映されます。
+
+storage: csv               # データをCSVでリポジトリに保存（クラウド実行用。変更しないでください）
+
+hall:
+  name: オーギヤWO
+  anaslo_list_url: https://ana-slo.com/ホールデータ/愛知県/オーギヤwo-データ一覧/
+  minrepo_tag_url: https://min-repo.com/tag/wo/
+  event_digits: [0, 5]     # 旧イベント日（日付の末尾）
+
+target:
+  keyword: ハナハナ         # 機種名にこの文字を含む台が対象
+  high_min: 5               # 「高設定」とみなす設定（5なら設定5・6）
+  # 島の区切り（角台の判定用）。例: islands: [[668, 677], [678, 687], [693, 703]]
+  islands: []
+
+fetch:
+  interval_sec: 75          # アナスロ 1ページごとの待ち時間（秒）
+  jitter_sec: 30
+  backoff_min: 20           # アクセス制限(403)が出たときに休む時間（分）
+  daily_max_pages: 8
+  minrepo_interval_sec: 8
+  engine: auto              # auto / requests / playwright
+
+predict:
+  top_n: 10
+  prev_max_gap: 1
+  open_browser: false

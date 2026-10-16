@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+data/hana.db
+data/fetch.lock
+logs/
+output/
