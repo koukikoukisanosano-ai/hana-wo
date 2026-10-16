@@ -92,8 +92,10 @@ def write_status(root: Path, **kw) -> None:
 
 
 def cmd_update(cfg, db, max_pages=None, deadline=None) -> dict:
-    f = make_fetcher(cfg)
     stats = {}
+    if not cfg["fetch"].get("anaslo_direct", True):
+        return cmd_minrepo_recent(cfg, db, stats)
+    f = make_fetcher(cfg)
     now = datetime.now(JST).strftime("%Y-%m-%d %H:%M")
     try:
         stats = anaslo.update(db, f, cfg["hall"]["anaslo_list_url"],
@@ -113,6 +115,11 @@ def cmd_update(cfg, db, max_pages=None, deadline=None) -> dict:
         if any(k in msg for k in ("ConnectionError", "ProxyError", "Max retries", "timed out", "NameResolution")):
             msg = "サイトに接続できませんでした"
         write_status(C.ROOT, anaslo_checked=now, anaslo_result="error", anaslo_message=msg[:120])
+    f.close()
+    return cmd_minrepo_recent(cfg, db, stats)
+
+
+def cmd_minrepo_recent(cfg, db, stats: dict) -> dict:
     # みんレポ: アナスロの最新日より新しい日があれば補完
     try:
         cov = db.coverage()
@@ -124,8 +131,38 @@ def cmd_update(cfg, db, max_pages=None, deadline=None) -> dict:
             log.info("みんレポで %d 台日を補完", n)
     except Exception as e:
         log.warning("みんレポの確認でエラー（無視して続行）: %s", e)
-    f.close()
     return stats
+
+
+def cmd_inbox(cfg, db, root: Path) -> dict:
+    """iPhone から届いたデータを取り込み、次に取りに行くページの一覧を更新する。"""
+    from .sources import phone
+    st = phone.process(db, root)
+    now = datetime.now(JST).strftime("%Y-%m-%d %H:%M")
+    if st["files"]:
+        result = "ok" if st["days"] else ("blocked" if st["blocked"] else "nodata")
+        kw = {"phone_last": now, "phone_result": result,
+              "phone_message": f"{st['days']}日分を受信" + (f"・空ページ{st['blocked']}件" if st["blocked"] else "")}
+        if st["days"]:
+            kw["phone_ok"] = now
+        write_status(root, **kw)
+        log.info("iPhoneからの受信: %s", st)
+    write_next(cfg, db, root)
+    return st
+
+
+def write_next(cfg, db, root: Path) -> list[str]:
+    from .sources import phone
+    tmpl = cfg["hall"].get("anaslo_day_url",
+                           "https://ana-slo.com/{date}-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/")
+    n = int(cfg.get("phone", {}).get("pages_per_run", 4))
+    urls = phone.next_urls(db, today_jst(), tmpl, n=n)
+    txt = "\n".join(urls) + ("\n" if urls else "")
+    (root / "data" / "next.txt").write_text(txt, encoding="utf-8")
+    (root / "output").mkdir(exist_ok=True)
+    (root / "output" / "next.txt").write_text(txt, encoding="utf-8")
+    log.info("iPhoneが次に取りに行くページ: %d件", len(urls))
+    return urls
 
 
 def cmd_backfill(cfg, db, hours: float, on_progress=None) -> None:
@@ -219,6 +256,20 @@ def status_warnings(root: Path) -> list[str]:
     except Exception:
         return []
     out = []
+    if st.get("mode") == "phone":
+        last = st.get("phone_last")
+        if not last:
+            out.append("iPhoneからのデータ送信がまだありません。設定ガイドの手順でショートカットを設定してください。")
+        else:
+            try:
+                age = datetime.now(JST).replace(tzinfo=None) - datetime.strptime(last, "%Y-%m-%d %H:%M")
+                if age > timedelta(hours=36):
+                    out.append(f"iPhoneからのデータ送信が止まっています（最後の受信 {last}）。ショートカットのオートメーションを確認してください。")
+            except ValueError:
+                pass
+            if st.get("phone_result") == "blocked":
+                out.append(f"最後の受信（{last}）ではアナスロのページが空でした。アクセス制限の可能性があります（自動で再試行します）。")
+        return out
     if st.get("anaslo_result") in ("blocked", "error"):
         last_ok = st.get("anaslo_ok", "なし")
         out.append(f"アナスロからデータを取得できていません（最終確認 {st.get('anaslo_checked')}：{st.get('anaslo_message', '')}）。"
@@ -237,6 +288,8 @@ def cmd_import_seed(db, root: Path) -> None:
             rows.append({"date": d, "unit": int(unit), "model": model, "games": anaslo.to_int(g),
                          "diff": anaslo.to_int(diff), "bb": anaslo.to_int(bb), "rb": anaslo.to_int(rb)})
         db.upsert_units(rows, "seed")
+        for d in sorted({r["date"] for r in rows}):
+            db.log_fetch(d, "anaslo", "ok", sum(1 for r in rows if r["date"] == d))
         log.info("初期データ %d 台日を取り込みました", len(rows))
     p = seed / "anaslo_hall_days.csv"
     if p.exists():
@@ -272,6 +325,7 @@ def main(argv=None) -> int:
     sub.add_parser("status")
     sub.add_parser("import-seed")
     sub.add_parser("diag")
+    sub.add_parser("inbox")
     a = ap.parse_args(argv)
 
     root = C.ROOT
@@ -315,7 +369,18 @@ def main(argv=None) -> int:
     elif a.cmd == "backtest":
         r = cmd_backtest(cfg, db, root, a.days, a.lag)
         log.info("検証結果: %s", {k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items()})
+    elif a.cmd == "inbox":
+        cmd_inbox(cfg, db, root)
+        if today_jst().weekday() == 0 or load_backtest(root) is None:
+            try:
+                cmd_backtest(cfg, db, root)
+            except Exception as e:
+                log.warning("検証でエラー（予想は続行）: %s", e)
+        cmd_predict(cfg, db, root, today_jst())
+        write_next(cfg, db, root)
     elif a.cmd == "daily":
+        if (root / "inbox").exists():
+            cmd_inbox(cfg, db, root)
         if fetch_ok:
             cmd_update(cfg, db)
         if today_jst().weekday() == 0 or load_backtest(root) is None:   # 週1回 検証を更新
@@ -324,6 +389,7 @@ def main(argv=None) -> int:
             except Exception as e:
                 log.warning("検証でエラー（予想は続行）: %s", e)
         cmd_predict(cfg, db, root, today_jst(), cfg["predict"].get("open_browser", False))
+        write_next(cfg, db, root)
     elif a.cmd == "minrepo-history":
         if not fetch_ok:
             return 0
@@ -353,7 +419,7 @@ def main(argv=None) -> int:
         except Exception as e:
             log.warning("公式サイト調査でエラー: %s", e)
         log.info("診断: %s", json.dumps(r, ensure_ascii=False)[:1500])
-    if csv_mode and a.cmd in ("update", "backfill", "daily", "minrepo-history", "import-seed"):
+    if csv_mode and a.cmd in ("update", "backfill", "daily", "minrepo-history", "import-seed", "inbox"):
         db.export_csv(root / "data", keyword=cfg["target"].get("keyword", "ハナハナ"))
         log.info("データを保存しました")
     return 0

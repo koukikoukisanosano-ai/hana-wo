@@ -2,18 +2,18 @@ name: ハナハナ予想
 
 on:
   schedule:
-    - cron: '41 22 * * *'                    # 毎朝 7:41（日本時間）: 新しいデータを取得して今日の予想
-    - cron: '11 1,4,7,10,13,16,19 * * *'     # 3時間おき: 過去データの取得を進めて予想を更新
-  workflow_dispatch:                         # iPhoneから手動で実行するとき
-    inputs:
-      mode:
-        description: 'daily=取得して予想 / backfill=過去データ取得 / predict=予想だけ作り直す'
-        type: choice
-        options: [daily, backfill, predict, diag]
-        default: daily
+    - cron: '41 22 * * *'    # 毎朝 7:41（日本時間）: 今日の予想ページを作成
+    - cron: '41 13 * * *'    # 毎晩 22:41（日本時間）: iPhoneが翌朝取りに行くページの一覧を更新
   push:
     branches: [main]
-    paths: ['hana/**', 'config.yaml', 'requirements.txt', '.github/workflows/**']
+    paths: ['inbox/**', 'hana/**', 'config.yaml', 'requirements.txt', '.github/workflows/**']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'inbox=受信データを処理して予想 / daily=朝の処理 / diag=接続診断'
+        type: choice
+        options: [inbox, daily, diag]
+        default: inbox
 
 permissions:
   contents: write
@@ -27,7 +27,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 100
+    timeout-minutes: 30
     env:
       TZ: Asia/Tokyo
       PYTHONUTF8: '1'
@@ -40,30 +40,21 @@ jobs:
           cache: pip
 
       - name: 準備
-        run: |
-          pip install -r requirements.txt
-          python -m playwright install --with-deps chromium
+        run: pip install -r requirements.txt
 
-      - name: 取得と予想
+      - name: 受信データの処理と予想
         run: |
           MODE="${{ inputs.mode }}"
           if [ -z "$MODE" ]; then
-            if [ "${{ github.event.schedule }}" = "41 22 * * *" ] || [ "${{ github.event_name }}" = "push" ]; then
-              MODE=daily
-            else
-              MODE=backfill
-            fi
+            if [ "${{ github.event_name }}" = "schedule" ]; then MODE=daily; else MODE=inbox; fi
           fi
           echo "実行モード: $MODE"
-          if [ "${{ github.event_name }}" = "push" ] || [ "$MODE" = "diag" ]; then
+          if [ "$MODE" = "diag" ]; then
+            pip install playwright && python -m playwright install --with-deps chromium
             python -m hana diag || true
+            MODE=inbox
           fi
-          case "$MODE" in
-            daily)    python -m hana daily ;;
-            backfill) python -m hana backfill --max-minutes 45 ;;
-            predict)  python -m hana predict ;;
-            diag)     python -m hana predict ;;
-          esac
+          python -m hana $MODE
           python -m hana status
 
       - name: データを保存
@@ -71,10 +62,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
+          git add -A data inbox 2>/dev/null || git add -A data
           if git diff --cached --quiet; then echo "変更なし"; exit 0; fi
           git commit -q -m "データ更新 $(date '+%Y-%m-%d %H:%M')"
-          for i in 1 2 3; do
+          for i in 1 2 3 4; do
             git pull -q --rebase -X theirs && git push -q && break
             sleep 5
           done

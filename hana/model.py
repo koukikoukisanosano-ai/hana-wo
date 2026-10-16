@@ -318,7 +318,9 @@ def candidates(model: Model, target: Date) -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame()
     last = df["date"].max()
-    cur = df[df["date"] == last][["unit", "model"]].copy()
+    # 直近1週間に登場した台（ある日のデータが一部欠けても台が消えないように）
+    recent = df[df["date"] >= last - pd.Timedelta(days=7)].sort_values("date")
+    cur = recent.groupby("unit").tail(1)[["unit", "model"]].copy()
     t = pd.Timestamp(target)
     cur["date"] = t
     pos = corners(cur["unit"].tolist(), model.cfg.islands)
