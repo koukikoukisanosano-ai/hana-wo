@@ -1,0 +1,64 @@
+{
+ "when": "2026-10-17 07:17",
+ "requests": {
+  "anaslo_list": {
+   "status": 403,
+   "title": "",
+   "server": "cloudflare",
+   "cf_mitigated": "",
+   "len": 1,
+   "snippet": ""
+  },
+  "anaslo_top": {
+   "status": 403,
+   "title": "",
+   "server": "cloudflare",
+   "cf_mitigated": "",
+   "len": 1,
+   "snippet": ""
+  },
+  "official_teramoba": {
+   "status": 200,
+   "title": "http://ogiya.pt.teramoba2.com/wo/rack_info",
+   "server": "Apache/2.4.68 (Debian)",
+   "cf_mitigated": "",
+   "len": 48783,
+   "snippet": "http://ogiya.pt.teramoba2.com/wo/rack_info"
+  },
+  "minrepo_tag": {
+   "status": 200,
+   "title": "オーギヤWO データ一覧 | スロット差枚データ詳細 &#8211; みんレポ",
+   "server": "nginx",
+   "cf_mitigated": "",
+   "len": 135137,
+   "snippet": "オーギヤWO データ一覧 | スロット差枚データ詳細 &#8211; みんレポ スロット差枚データ 高速・詳細レポート ﾗﾝｷﾝｸﾞ お問合せ 閲覧履歴 お気に入り ﾊﾟﾁﾝｺ版 HOME &raquo; オーギヤWO オーギヤWO 愛知県 旧イベント日 0のつく日、 5のつく日 ※追加・修正する必要がある場合は お問い合わせ ください パチンコ版 パチンコレポート一覧 知多・三河エリア で勝つための ヤバいスロット情報はこちら>> オーギヤWO データ一覧 ※記号(☆◎◯▲)の表記について 絞り込み： 特定日を選択 0のつく日 5のつく日 全て 日付 総差枚 平均差枚 平均G 機種・末尾 7/30(木) +137,855 +452 5,546 ◎Lパチスロ炎炎ノ消防隊2 ▲スマスロ ミリオンゴッド-神々の軌跡- ▲L東京喰種 ▲Lアズールレーン THE ANIMATION ▲スマスロ北斗"
+  },
+  "hallnavi": {
+   "status": 200,
+   "title": "ãªã¼ã®ã¤WOï½ã¤ãã³ãä¸è¦§ã»åºçãã¼ã¿ã¾ã¨ã",
+   "server": "cloudflare",
+   "cf_mitigated": "",
+   "len": 606977,
+   "snippet": "--> ãªã¼ã®ã¤WOï½ã¤ãã³ãä¸è¦§ã»åºçãã¼ã¿ã¾ã¨ã ä¸­é¨ç Menu ãã¬ãã¢ã ä¼å¡ç»é² ã­ã°ã¤ã³ ããããã©ã³ã­ã³ã° åæãæ§ã¤ããæ¤ç´¢ ãã¼ã«ãæ¤ç´¢ çµæã¬ãã¼ããæ¤ç´¢ ã¦ã¼ã¶ã¼æç¨¿ä¸è¦§ ã¨ãªã¢é¸æ 10/17(å)ããããã©ã³ã­ã³ã° æç¥ç 17.5 ç¹ éå²¡ç 18.8 ç¹ å±±æ¢¨ç 14.1 ç¹ é·éç 17.5 ç¹ å²éç 17.9 ç¹ "
+  }
+ },
+ "browser": {
+  "anaslo_list": {
+   "status": 403,
+   "title": "",
+   "server": "cloudflare",
+   "cf_mitigated": "",
+   "len": 152,
+   "snippet": ""
+  },
+  "official_teramoba": {
+   "status": 200,
+   "title": "",
+   "server": "Apache/2.4.68 (Debian)",
+   "cf_mitigated": "",
+   "len": 46571,
+   "snippet": "サイトを閲覧する"
+  }
+ },
+ "egress_ip": "13.86.110.155"
+}
