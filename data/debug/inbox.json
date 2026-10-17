@@ -20,5 +20,27 @@
   "has_total": false,
   "n_rows": 0,
   "head": ""
+ },
+ {
+  "received": "2026-10-17 21:33:28",
+  "url": "https://ana-slo.com/2026-10-17-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 76,
+  "rest_len": 0,
+  "lines": 2,
+  "has_title": false,
+  "has_total": false,
+  "n_rows": 0,
+  "head": ""
+ },
+ {
+  "received": "2026-10-17 21:33:29",
+  "url": "https://ana-slo.com/2026-10-16-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 76,
+  "rest_len": 0,
+  "lines": 2,
+  "has_title": false,
+  "has_total": false,
+  "n_rows": 0,
+  "head": ""
  }
 ]
