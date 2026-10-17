@@ -130,5 +130,27 @@
   "has_total": true,
   "n_rows": 65,
   "head": "<title>2026/10/08 オーギヤWO データまとめ - アナスロ</title>\n<table class=\"total_get_medals_table\">\n<tbody>\n<tr>\n<th>総差枚</th>\n<th>平均差枚</th>\n<th>平均G数</th>\n<th>勝率</th>\n</tr>\n<tr>\n<td class=\"table_cells\">+5,951</td>\n<td class=\"table_cells\">+20</td>\n<td class=\"table_cells\">2,775</td>\n<td class=\"table_cells\">32.5%(99/305)</td>\n</tr>\n</tbody>\n</table>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">6,976</td>\n<td class=\"table_cells\">+353</td>\n<td class=\"table_cells\">27</td>\n<td class=\"table_cells\">19</td>\n<td class=\"table_c"
+ },
+ {
+  "received": "2026-10-17 21:57:33",
+  "url": "https://ana-slo.com/2026-10-16-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27726,
+  "rest_len": 27650,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/10/16 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">8,003</td>\n<td class=\"table_cells\">+1,019</td>\n<td class=\"table_cells\">35</td>\n<td class=\"table_cells\">17</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/153.9</td>\n<td class=\"table_cells\">1/228.7</td>\n<td class=\"table_cells\">1/470.8</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\""
+ },
+ {
+  "received": "2026-10-17 21:57:34",
+  "url": "https://ana-slo.com/2026-10-15-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27748,
+  "rest_len": 27672,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/10/15 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">7,758</td>\n<td class=\"table_cells\">+3,033</td>\n<td class=\"table_cells\">38</td>\n<td class=\"table_cells\">22</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/129.3</td>\n<td class=\"table_cells\">1/204.2</td>\n<td class=\"table_cells\">1/352.6</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\""
  }
 ]
