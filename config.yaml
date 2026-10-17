@@ -17,7 +17,7 @@ target:
   islands: []
 
 phone:
-  pages_per_run: 6          # iPhoneが1回に取りに行くページ数（多くするとアクセス制限されやすい）
+  pages_per_run: 4          # iPhoneが1回に取りに行くページ数（多くするとアクセス制限されやすい）
 
 fetch:
   anaslo_direct: false      # クラウドから直接アナスロへ取りに行くか（GitHubからは拒否されるので false）

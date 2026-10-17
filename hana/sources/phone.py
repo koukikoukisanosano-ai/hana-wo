@@ -118,8 +118,7 @@ def next_urls(db, today: Date, url_tmpl: str, n: int = 4, window_days: int = 390
     log_by = {d: (s, t) for d, s, t in rows}
     now = datetime.now(JST).replace(tzinfo=None)
     out = []
-    start = 0 if now.hour >= 18 else 1      # 当日分は夜の一覧にだけ入れる（翌朝に取りに行く）
-    for k in range(start, window_days):
+    for k in range(1, window_days):          # 当日分はまだ公開されないので前日から
         d = today - timedelta(days=k)
         key = d.isoformat()
         st = log_by.get(key)
