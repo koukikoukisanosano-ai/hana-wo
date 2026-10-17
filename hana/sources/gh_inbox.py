@@ -7,8 +7,12 @@ iPhone のショートカットは、1ページごとに次の内容をコメン
 """
 from __future__ import annotations
 
+import json
 import logging
 import os
+import re
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import requests
 
@@ -43,7 +47,28 @@ def ensure_issue(s: requests.Session, repo: str) -> int:
     return n
 
 
-def process(db, stats: dict) -> int | None:
+def _debug_record(root: Path, c: dict, body: str) -> None:
+    """届いた中身の概要を data/debug/inbox.json に残す（原因調査用・最新20件）。"""
+    p = root / "data" / "debug" / "inbox.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        items = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        items = []
+    first, _, rest = body.partition("\n")
+    items.append({
+        "received": datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d %H:%M:%S"),
+        "url": first.strip()[:200], "total_len": len(body), "rest_len": len(rest),
+        "lines": body.count("\n") + 1,
+        "has_title": bool(re.search(r"<title>", rest)),
+        "has_total": "total_get_medals_table" in rest,
+        "n_rows": len(re.findall(r'class="fixed01"', rest)),
+        "head": rest[:600],
+    })
+    p.write_text(json.dumps(items[-20:], ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def process(db, stats: dict, root: Path | None = None) -> int | None:
     token = os.environ.get("GITHUB_TOKEN")
     repo = os.environ.get("GITHUB_REPOSITORY")
     owner = (os.environ.get("GITHUB_REPOSITORY_OWNER") or "").lower()
@@ -65,6 +90,11 @@ def process(db, stats: dict) -> int | None:
     for c in sorted(comments, key=lambda c: c["created_at"]):
         who = (c.get("user") or {}).get("login", "").lower()
         if who == owner:
+            if root is not None:
+                try:
+                    _debug_record(root, c, c.get("body") or "")
+                except Exception as e:
+                    log.warning("記録に失敗: %s", e)
             try:
                 phone.handle_blob(db, c.get("body") or "", stats, f"comment {c['id']}")
             except Exception as e:

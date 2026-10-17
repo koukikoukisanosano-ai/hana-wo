@@ -139,7 +139,7 @@ def cmd_inbox(cfg, db, root: Path) -> dict:
     from .sources import gh_inbox, phone
     st = phone.process(db, root)
     try:
-        num = gh_inbox.process(db, st)
+        num = gh_inbox.process(db, st, root)
         if num:
             write_status(root, inbox_issue=num)
     except Exception as e:
