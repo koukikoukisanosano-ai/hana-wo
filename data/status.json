@@ -1,4 +1,7 @@
 {
  "mode": "phone",
- "inbox_issue": 1
+ "inbox_issue": 1,
+ "phone_last": "2026-10-17 09:15",
+ "phone_result": "blocked",
+ "phone_message": "0日分を受信・空ページ2件"
 }
