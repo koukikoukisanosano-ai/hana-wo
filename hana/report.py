@@ -190,8 +190,8 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
     warns = []
     if lag is not None and lag > cfg.prev_max_gap:
         y = target - pd.Timedelta(days=1)
-        warns.append(f"前日（{y.month}/{y.day}）のデータがまだ公開されていないため、"
-                     "「前日の凹み・据え置き」系の要因は使わずに予想しています。データサイトの更新は数日遅れることがあります。")
+        warns.append(f"前日（{y.month}/{y.day}）のデータがまだ取り込めていないため、"
+                     "「前日の凹み・据え置き」系の要因は使わずに予想しています。iPhoneの次の自動取得で取り込まれます。")
     if model.n_days < 30:
         warns.append(f"まだ{model.n_days}日分しかデータがありません。過去データの取得が進むほど店の癖が反映されます"
                      "（初回の取得は数時間〜1日程度かかります）。")
