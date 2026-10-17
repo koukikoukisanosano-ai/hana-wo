@@ -6,8 +6,9 @@ date,source,status,n_rows,fetched_at
 2026-10-03,anaslo,ok,31,2026-10-11T12:00:00
 2026-10-04,anaslo,ok,31,2026-10-11T12:00:00
 2026-10-05,anaslo,ok,31,2026-10-11T12:00:00
-2026-10-13,anaslo,blocked,0,2026-10-17T09:23:37
-2026-10-14,anaslo,blocked,0,2026-10-17T09:16:04
-2026-10-15,anaslo,blocked,0,2026-10-17T09:15:27
+2026-10-12,anaslo,blocked,0,2026-10-17T21:34:41
+2026-10-13,anaslo,blocked,0,2026-10-17T21:34:40
+2026-10-14,anaslo,blocked,0,2026-10-17T21:34:40
+2026-10-15,anaslo,blocked,0,2026-10-17T21:34:39
 2026-10-16,anaslo,blocked,0,2026-10-17T21:33:29
 2026-10-17,anaslo,blocked,0,2026-10-17T21:33:28
