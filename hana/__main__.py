@@ -148,7 +148,10 @@ def cmd_inbox(cfg, db, root: Path) -> dict:
     if st["files"]:
         result = "ok" if st["days"] else ("blocked" if st["blocked"] else "nodata")
         kw = {"phone_last": now, "phone_result": result,
-              "phone_message": f"{st['days']}日分を受信" + (f"・空ページ{st['blocked']}件" if st["blocked"] else "")}
+              "phone_message": f"{st['days']}日分を受信"
+                               + (("（" + "・".join(f"{int(d[5:7])}/{int(d[8:10])}" for d in sorted(st["dates"], reverse=True)) + "）")
+                                  if st.get("dates") else "")
+                               + (f"・空ページ{st['blocked']}件" if st["blocked"] else "")}
         if st["days"]:
             kw["phone_ok"] = now
         write_status(root, **kw)
@@ -203,6 +206,13 @@ def load_backtest(root: Path) -> dict | None:
     return None
 
 
+def need_backtest(root: Path) -> bool:
+    bt = load_backtest(root)
+    if bt is None or not bt.get("ok"):
+        return True
+    return today_jst().weekday() == 0 and bt.get("when") != str(today_jst())
+
+
 def cmd_backtest(cfg, db, root: Path, days=90, lag=None) -> dict:
     units, hall = db.units(cfg["target"].get("keyword", "ハナハナ")), db.hall_days()
     if lag is None:
@@ -245,6 +255,18 @@ def cmd_predict(cfg, db, root: Path, target: Date, open_browser=False) -> Path |
     m = M.train(units, hall, s)
     pred = M.predict(m, target)
     pred_dir = root / "data" / "predictions"
+    try:   # 動作環境の記録（クラウドと手元で結果を比べるため）
+        import platform
+        import numpy
+        import pandas as pd
+        envp = root / "data" / "debug" / "env.json"
+        envp.parent.mkdir(parents=True, exist_ok=True)
+        envp.write_text(json.dumps({"python": platform.python_version(), "pandas": pd.__version__,
+                                    "numpy": numpy.__version__, "target": str(target),
+                                    "top": [[int(r.unit), round(float(r.score), 4)] for r in pred.head(5).itertuples()]},
+                                   ensure_ascii=False, indent=1), encoding="utf-8")
+    except Exception as e:
+        log.warning("環境の記録に失敗: %s", e)
     path = R.build(m, pred, target, cfg["hall"].get("name", ""), cfg["predict"].get("top_n", 10),
                    load_backtest(root), db.coverage(), root / "output", extra_warns=status_warnings(root),
                    pred_dir=pred_dir, info_line=status_line(root))
@@ -394,7 +416,7 @@ def main(argv=None) -> int:
         log.info("検証結果: %s", {k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items()})
     elif a.cmd == "inbox":
         cmd_inbox(cfg, db, root)
-        if today_jst().weekday() == 0 or load_backtest(root) is None:
+        if need_backtest(root):
             try:
                 cmd_backtest(cfg, db, root)
             except Exception as e:
@@ -405,7 +427,7 @@ def main(argv=None) -> int:
         cmd_inbox(cfg, db, root)
         if fetch_ok:
             cmd_update(cfg, db)
-        if today_jst().weekday() == 0 or load_backtest(root) is None:   # 週1回 検証を更新
+        if need_backtest(root):   # 週1回（検証できるだけのデータがまだない間は毎回）
             try:
                 cmd_backtest(cfg, db, root)
             except Exception as e:

@@ -62,6 +62,19 @@ def fit_prior(loglik: np.ndarray, iters: int = 200, smooth: float = 1.0) -> np.n
     return prior
 
 
+def class_llr(loglik: np.ndarray, prior: np.ndarray, high_min: int = HIGH_MIN_DEFAULT) -> np.ndarray:
+    """「高設定(high_min以上)」と「それ以外」の対数尤度比。各グループ内の設定の割合は店全体の配分を使う。
+    事前確率 π の台なら、事後確率 = sigmoid(logit(π) + 尤度比)。"""
+    if len(loglik) == 0:
+        return np.zeros(0)
+    k = high_min - 1
+    lp = loglik + np.log(np.clip(prior, 1e-9, None))
+    mx = lp.max(axis=1, keepdims=True)
+    hi = np.log(np.exp(lp[:, k:] - mx).sum(axis=1)) - np.log(prior[k:].sum())
+    lo = np.log(np.exp(lp[:, :k] - mx).sum(axis=1)) - np.log(prior[:k].sum())
+    return hi - lo
+
+
 def add_estimates(df: pd.DataFrame, prior: np.ndarray | None = None,
                   high_min: int = HIGH_MIN_DEFAULT, min_games: int = 300) -> tuple[pd.DataFrame, np.ndarray]:
     """df に p_high（高設定確率）, e_set（期待設定）, p_set1..6 を追加して返す。"""
@@ -77,7 +90,9 @@ def add_estimates(df: pd.DataFrame, prior: np.ndarray | None = None,
     settings = np.arange(1, N_SET + 1)
     df["e_set"] = np.nan
     df["p_high"] = np.nan
+    df["llr"] = 0.0          # ゲーム数が少ない日は情報なし（尤度比0）
     if len(post):
         df.loc[ok, "e_set"] = post @ settings
         df.loc[ok, "p_high"] = post[:, high_min - 1:].sum(axis=1)
+        df.loc[ok, "llr"] = class_llr(ll, prior, high_min)
     return df, prior
