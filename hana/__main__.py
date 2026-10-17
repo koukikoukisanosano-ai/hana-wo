@@ -161,8 +161,14 @@ def write_next(cfg, db, root: Path) -> list[str]:
     from .sources import phone
     tmpl = cfg["hall"].get("anaslo_day_url",
                            "https://ana-slo.com/{date}-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/")
-    n = int(cfg.get("phone", {}).get("pages_per_run", 6))
-    urls = phone.next_urls(db, today_jst(), tmpl, n=n)
+    n = int(cfg.get("phone", {}).get("pages_per_run", 4))
+    hp = root / "data" / "handout.json"
+    try:
+        handout = json.loads(hp.read_text(encoding="utf-8")) if hp.exists() else {}
+    except Exception:
+        handout = {}
+    urls = phone.next_urls(db, today_jst(), tmpl, n=n, handout=handout)
+    hp.write_text(json.dumps(dict(sorted(handout.items())), ensure_ascii=False, indent=1), encoding="utf-8")
     txt = "\n".join(urls)          # 末尾に改行を付けない（iPhone側で空の行がエラーになるため）
     (root / "data" / "next.txt").write_text(txt, encoding="utf-8")
     (root / "output").mkdir(exist_ok=True)

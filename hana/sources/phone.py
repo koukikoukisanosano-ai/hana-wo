@@ -111,13 +111,19 @@ def process(db, root: Path, stats: dict | None = None) -> dict:
     return stats
 
 
-def next_urls(db, today: Date, url_tmpl: str, n: int = 4, window_days: int = 390) -> list[str]:
-    """iPhone が次に取りに行くページ。新しい日付から順に、まだ取れていない日。"""
+def next_urls(db, today: Date, url_tmpl: str, n: int = 4, window_days: int = 390,
+              handout: dict | None = None) -> list[str]:
+    """iPhone が次に取りに行くページ。新しい日付から順に、まだ取れていない日。
+
+    handout: {日付: 最初に一覧に載せた日時} — 24時間以上載せても結果が届かない日付は
+    （ページの問題でショートカットが止まっている可能性があるので）一覧の最後に回す。
+    """
     with db.conn() as c:
         rows = c.execute("SELECT date, status, fetched_at FROM fetch_log WHERE source=?", (SOURCE,)).fetchall()
     log_by = {d: (s, t) for d, s, t in rows}
     now = datetime.now(JST).replace(tzinfo=None)
-    out = []
+    handout = handout if handout is not None else {}
+    fresh, stuck = [], []
     for k in range(1, window_days):          # 当日分はまだ公開されないので前日から
         d = today - timedelta(days=k)
         key = d.isoformat()
@@ -125,6 +131,7 @@ def next_urls(db, today: Date, url_tmpl: str, n: int = 4, window_days: int = 390
         if st:
             status, t = st
             if status == "ok":
+                handout.pop(key, None)
                 continue
             try:
                 last = datetime.fromisoformat(t)
@@ -137,9 +144,20 @@ def next_urls(db, today: Date, url_tmpl: str, n: int = 4, window_days: int = 390
                 continue
             if not recent and status == "empty":
                 continue        # 古い日でページ自体がない → もう取りに行かない
-        out.append(url_tmpl.format(date=key))
-        if len(out) >= n:
+        first = handout.get(key)
+        try:
+            first_dt = datetime.fromisoformat(first) if first else None
+        except Exception:
+            first_dt = None
+        if first_dt and now - first_dt > timedelta(days=7) and (today - d).days > 10:
+            continue            # 1週間たっても取れない古い日はあきらめる
+        (stuck if first_dt and now - first_dt > timedelta(hours=24) else fresh).append(key)
+        if len(fresh) >= n:
             break
+    chosen = (fresh + stuck)[:n]
+    for key in chosen:
+        handout.setdefault(key, now.isoformat(timespec="seconds"))
+    out = [url_tmpl.format(date=key) for key in chosen]
     if not out:   # 空だとiPhoneのショートカットがエラーになるので、前日分を1件だけ入れておく
         out.append(url_tmpl.format(date=(today - timedelta(days=1)).isoformat()))
     return out
