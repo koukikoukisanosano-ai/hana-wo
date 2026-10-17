@@ -86,5 +86,16 @@
   "has_total": false,
   "n_rows": 0,
   "head": ""
+ },
+ {
+  "received": "2026-10-17 21:41:11",
+  "url": "https://ana-slo.com/2026-10-11-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 28079,
+  "rest_len": 28003,
+  "lines": 733,
+  "has_title": true,
+  "has_total": true,
+  "n_rows": 65,
+  "head": "<title>2026/10/11 オーギヤWO データまとめ - アナスロ</title>\n<table class=\"total_get_medals_table\">\n<tbody>\n<tr>\n<th>総差枚</th>\n<th>平均差枚</th>\n<th>平均G数</th>\n<th>勝率</th>\n</tr>\n<tr>\n<td class=\"table_cells\">+36,454</td>\n<td class=\"table_cells\">+120</td>\n<td class=\"table_cells\">4,142</td>\n<td class=\"table_cells\">38.4%(117/305)</td>\n</tr>\n</tbody>\n</table>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">7,025</td>\n<td class=\"table_cells\">+692</td>\n<td class=\"table_cells\">28</td>\n<td class=\"table_cells\">19</td>\n<td class=\"tabl"
  }
 ]
