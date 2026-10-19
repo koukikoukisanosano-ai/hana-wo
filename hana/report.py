@@ -13,6 +13,12 @@ from . import model as M
 E = html.escape
 
 CSS = """
+.dstr{border-radius:14px;padding:14px 16px;margin:14px 0;border:1px solid var(--line,#ddd)}
+.dstr.hot{background:#fde3d8}.dstr.warm{background:#fdf0dc}.dstr.norm{background:#f2f2ef}.dstr.cold{background:#e7edf3}
+.dstr b.lv{font-size:22px;margin-right:6px}.dstr .sub{font-size:13px;color:#555;margin-top:6px}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px}
+.week div{border-radius:8px;padding:6px 2px;text-align:center;font-size:12px;color:#222}
+.week .hot{background:#f3a87c}.week .warm{background:#f6dcae}.week .norm{background:#ece9e1}.week .cold{background:#dfe7ef}
 table.jgrid td.jg{text-align:center;min-width:26px;font-weight:600;color:#222}
 table.jgrid th{white-space:nowrap}
 :root{--bg:#f6f4ef;--card:#fff;--ink:#1d1b18;--sub:#6b665d;--line:#e4dfd4;--accent:#c8324b;--accent2:#e98a2b;
@@ -165,6 +171,30 @@ def check_section(hist: pd.DataFrame, pred_dir: Path | None, target: Date, top_k
             "<p class='note'>この仕組みが毎朝出した予想を、後から公開された実データで採点したものです（推定＝BB・REGから推定した設定）。</p>")
 
 
+def day_section(hist, target, cfg) -> str:
+    from . import daystrength as DS
+    try:
+        r = DS.estimate(hist, target, cfg.event_digits, cfg.high_min)
+    except Exception:
+        return ""
+    if not r:
+        return ""
+    t = r["today"]
+    lv, cls = DS.level(t["ratio"])
+    wd = DS.WEEKDAY[target.weekday()]
+    gname = "0・5のつく日（旧イベ日）" if t["group"] == "旧イベ日" else "0・5のつかない日"
+    sub = (f"{gname}の過去{t['g_days']}日：全台平均 {t['g_diff']:+,.0f}枚・プラス台 {t['g_plus']*100:.0f}%・"
+           f"高設定っぽい台 {t['g_rate']*100:.0f}%（全日平均 {r['base']*100:.0f}%）")
+    week = "".join(
+        f"<div class='{DS.level(a['ratio'])[1]}'>{a['date'].month}/{a['date'].day}<br>{DS.WEEKDAY[a['date'].weekday()]}<br>"
+        f"<b>{DS.level(a['ratio'])[0]}</b></div>" for a in r["ahead"])
+    return (f"<h2>今日の店の強さ</h2><div class='dstr {cls}'><b class='lv'>{lv}</b>"
+            f"高設定っぽい台の見込み {t['rate']*100:.0f}%（平常の×{t['ratio']:.2f}）・{wd}曜"
+            f"<div class='sub'>{E(sub)}</div><div class='week'>{week}</div>"
+            f"<div class='sub'>この店のハナハナは、台ごとの差より「日」による差がはっきり出ています。"
+            f"その日より前のデータだけで見積もった強さと実際の強さを{r['n_days']}日分で比べて確認済み。</div></div>")
+
+
 def judge_txt(r) -> str:
     j = r.get("judge")
     if j is None or pd.isna(j):
@@ -294,6 +324,7 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
     table = ("<table class='rk'><tr class='hd'><th>順位</th><th>台番</th><th>高設定期待度</th><th>主な根拠</th><th>前回データ</th>"
              "<th>直近の判定設定</th></tr>" + "".join(trs) + "</table>")
     judgesec = judge_grid(hist, pred["unit"].astype(int).tolist(), cfg)
+    daysec = day_section(hist, target, cfg)
 
     # 島マップ
     units_sorted = sorted(pred["unit"].astype(int).tolist())
@@ -366,7 +397,8 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
 
     doc = (f"<!doctype html><html lang='ja'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
            f"<title>ハナハナ予想 {target:%m/%d}</title><style>{CSS}</style></head><body><div class='wrap'>"
-           f"{head}{status}{warn_html}<h2>台別ランキング</h2>{table}{mapsec}{judgesec}{check_section(hist, pred_dir, target)}"
+           f"{head}{status}{warn_html}{daysec}<h2>台別ランキング</h2>"
+           f"<p class='note'>台ごとの差は日ごとの差より小さく、過去データでも順位の当たり具合は弱めです。まずは上の「店の強さ」で行く日を選び、台はこの順位を参考程度に。</p>{table}{mapsec}{judgesec}{check_section(hist, pred_dir, target)}"
            f"{habit}{btsec}{foot}</div></body></html>")
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{target:%Y-%m-%d}.html"

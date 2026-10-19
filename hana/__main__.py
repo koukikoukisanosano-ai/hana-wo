@@ -148,8 +148,8 @@ def cmd_inbox(cfg, db, root: Path) -> dict:
     if st["files"]:
         result = "ok" if st["days"] else ("blocked" if st["blocked"] else "nodata")
         kw = {"phone_last": now, "phone_result": result,
-              "phone_message": f"{st['days']}日分を受信"
-                               + (("（" + "・".join(f"{int(d[5:7])}/{int(d[8:10])}" for d in sorted(st["dates"], reverse=True)) + "）")
+              "phone_message": f"{len(set(st['dates'])) or st['days']}日分を受信"
+                               + (("（" + "・".join(f"{int(d[5:7])}/{int(d[8:10])}" for d in sorted(set(st["dates"]), reverse=True)) + "）")
                                   if st.get("dates") else "")
                                + (f"・空ページ{st['blocked']}件" if st["blocked"] else "")}
         if st["days"]:
