@@ -19,6 +19,7 @@ target:
   islands: []
 
 phone:
+  pages_manual: 6          # 手動の「ハナハナまとめて」で1回に取りに行くページ数
   pages_per_run: 1          # iPhoneが1回に取りに行くページ数（自動実行では2ページ目で止まりやすいので1）
 
 fetch:

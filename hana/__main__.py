@@ -171,6 +171,11 @@ def write_next(cfg, db, root: Path) -> list[str]:
     except Exception:
         handout = {}
     urls = phone.next_urls(db, today_jst(), tmpl, n=n, handout=handout)
+    # 手動の「まとめて取得」用（先頭は自動実行と同じ日付。失敗回数の記録は上の1回分だけ）
+    many_n = int(cfg.get("phone", {}).get("pages_manual", 6))
+    many = phone.next_urls(db, today_jst(), tmpl, n=many_n, handout=json.loads(json.dumps(handout)))
+    many_txt = "\n".join(many)
+    (root / "data" / "next_many.txt").write_text(many_txt, encoding="utf-8")
     hp.write_text(json.dumps(dict(sorted(handout.items())), ensure_ascii=False, indent=1), encoding="utf-8")
     txt = "\n".join(urls)          # 末尾に改行を付けない（iPhone側で空の行がエラーになるため）
     (root / "data" / "next.txt").write_text(txt, encoding="utf-8")
