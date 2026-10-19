@@ -350,7 +350,9 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
     s = model.summaries
     habit = ""
     if s:
-        parts = [habit_table(s.get("digit"), base, "日付の末尾別（ハナハナ）"),
+        parts = [habit_table(s.get("seq2"), base, "判定の流れ（2日前→前日）→ 当日"),
+                 habit_table(s.get("seq3"), base, "判定の流れ（3日前→2日前→前日）→ 当日"),
+                 habit_table(s.get("digit"), base, "日付の末尾別（ハナハナ）"),
                  habit_table(s.get("wday"), base, "曜日別（ハナハナ）"),
                  habit_table(s.get("match"), base, "台番末尾と日付末尾の一致"),
                  habit_table(s.get("prevdiff"), base, "前日の差枚 → 当日"),
@@ -398,7 +400,7 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
     doc = (f"<!doctype html><html lang='ja'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
            f"<title>ハナハナ予想 {target:%m/%d}</title><style>{CSS}</style></head><body><div class='wrap'>"
            f"{head}{status}{warn_html}{daysec}<h2>台別ランキング</h2>"
-           f"<p class='note'>台ごとの差は日ごとの差より小さく、過去データでも順位の当たり具合は弱めです。まずは上の「店の強さ」で行く日を選び、台はこの順位を参考程度に。</p>{table}{mapsec}{judgesec}{check_section(hist, pred_dir, target)}"
+           f"<p class='note'>台の順位は「判定の流れ」（例: 低→中 の台は翌日上がりやすい、中→高→低 の台は上がりにくい）と日付・曜日で決めています。台番や台ごとの実績は検証で効かなかったので使っていません。</p>{table}{mapsec}{judgesec}{check_section(hist, pred_dir, target)}"
            f"{habit}{btsec}{foot}</div></body></html>")
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{target:%Y-%m-%d}.html"

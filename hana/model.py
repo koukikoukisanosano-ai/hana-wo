@@ -27,17 +27,13 @@ WEEKDAY = "月火水木金土日"
 
 # 因子名 → (表示名, 縮小の強さm)
 FACTORS = {
+    # 63日分の検証（各日をその日より前のデータだけで予想）で効いたものだけを使う。
+    # 台番・末尾・角台・台ごとの実績・前日差枚などは、翌日以降ほとんど続かず精度を下げたので外した。
     "f_digit":    ("日付末尾", 90.0),
     "f_wday":     ("曜日", 90.0),
     "f_special":  ("特定日", 90.0),
-    "f_unit":     ("この台", 60.0),   # 台ごとの差はデータ上ほとんど続かない（63日で確認）ので強めに平均へ寄せる
-    "f_udigit":   ("台番末尾", 60.0),
-    "f_match":    ("台番末尾＝日付末尾", 60.0),
-    "f_corner":   ("角台", 60.0),
-    "f_prevdiff": ("前回の差枚", 60.0),
-    "f_prevhigh": ("前回の挙動", 60.0),
-    "f_streak":   ("連続凹み", 60.0),
-    "f_recent":   ("直近7日の判定設定", 60.0),
+    "f_seq2":     ("2日前→前日の流れ", 20.0),
+    "f_seq3":     ("3日前→前日の流れ", 30.0),
 }
 HALL_FACTORS = {"h_digit": "店全体・日付末尾", "h_wday": "店全体・曜日"}
 
@@ -143,7 +139,23 @@ def add_prev(df: pd.DataFrame, cfg: Settings) -> pd.DataFrame:
             streak[i] = streak[i - 1] + 1 if lows[i - 1] else 0
     df["streak"] = streak
     df["recent_judge"], df["recent_n"] = recent_judge(df, df["unit"].to_numpy(), df["date"].to_numpy())
+    st = judge_state(df["judge"])
+    for k in (1, 2, 3):
+        okk = (df["date"] - g["date"].shift(k)).dt.days == k
+        df[f"st{k}"] = np.where(okk, pd.Series(st, index=df.index).groupby(df["unit"]).shift(k), None)
     return df.sort_values(["date", "unit"]).reset_index(drop=True)
+
+
+def judge_state(j) -> np.ndarray:
+    """判定設定 → 高（5・6）/ 中（3・4）/ 低（1・2）。判定なしは None。"""
+    j = pd.Series(j)
+    return np.where(j.isna(), None, np.where(j >= 5, "高", np.where(j >= 3, "中", "低")))
+
+
+def seq_key(*states) -> str:
+    if any(s is None or (isinstance(s, float) and np.isnan(s)) for s in states):
+        return "なし"
+    return "→".join(states)
 
 
 def recent_judge(hist: pd.DataFrame, units, dates, days: int = 7):
@@ -190,6 +202,8 @@ def add_keys(df: pd.DataFrame, cfg: Settings, pos: dict[int, str]) -> pd.DataFra
                          np.where(df["prev_p"] >= 0.30, "高設定挙動", "通常"))
     df["k_streak"] = np.where(df["streak"] >= 3, "3日以上", df["streak"].astype(int).astype(str) + "日")
     df["k_recent"] = [recent_bucket(m, n) for m, n in zip(df["recent_judge"], df["recent_n"])]
+    df["k_seq2"] = [seq_key(a, b) for a, b in zip(df["st2"], df["st1"])]
+    df["k_seq3"] = [seq_key(a, b, c) for a, b, c in zip(df["st3"], df["st2"], df["st1"])]
     return df
 
 
@@ -267,7 +281,7 @@ def build_X(rows: pd.DataFrame, hist: pd.DataFrame, hall: pd.DataFrame, cutoff_c
     return X
 
 
-PREV_FACTORS = ("f_prevdiff", "f_prevhigh", "f_streak")
+PREV_FACTORS = ("f_prevdiff", "f_prevhigh", "f_streak", "f_seq2", "f_seq3")
 
 
 def neutralize_prev(X: pd.DataFrame, rows: pd.DataFrame) -> None:
@@ -372,6 +386,10 @@ def candidates(model: Model, target: Date) -> pd.DataFrame:
     lows = (lastrows["diff"] <= -500) & (lastrows["p_high"].fillna(0) < 0.15)
     cur["streak"] = [int((lastrows.loc[u, "streak"] + 1) if (ok.get(u, False) and lows.get(u, False)) else 0)
                      for u in cur["unit"]]
+    jd = df.dropna(subset=["judge"]).set_index(["unit", "date"])["judge"]
+    for k in (1, 2, 3):
+        dk = t - pd.Timedelta(days=k)
+        cur[f"st{k}"] = [judge_state([jd.get((u, dk), np.nan)])[0] for u in cur["unit"]]
     cur["recent_judge"], cur["recent_n"] = recent_judge(df, cur["unit"].to_numpy(),
                                                         np.full(len(cur), np.datetime64(t)))
     cur = add_keys(cur.reset_index(drop=True), model.cfg, pos)
@@ -423,6 +441,8 @@ def summarize_habits(df: pd.DataFrame, hall: pd.DataFrame) -> dict:
     out["prevhigh"] = table("k_prevhigh", lambda v: f"前日{v}")
     out["streak"] = table("k_streak", lambda v: f"凹み{v}")
     out["recent"] = table("k_recent", lambda v: f"直近7日の判定が{v}")
+    out["seq2"] = table("k_seq2", lambda v: f"判定の流れ {v}")
+    out["seq3"] = table("k_seq3", lambda v: f"判定の流れ {v}")
     out["unit"] = table("k_unit", lambda v: f"{v}番")
     # 店全体（全機種）の日付末尾別 平均差枚
     h = hall.dropna(subset=["avg_diff"]).copy()
@@ -442,6 +462,7 @@ _REASON_KEYS = {
     "f_corner": ("corner", "k_corner"), "f_prevdiff": ("prevdiff", "k_prevdiff"),
     "f_prevhigh": ("prevhigh", "k_prevhigh"), "f_streak": ("streak", "k_streak"),
     "f_recent": ("recent", "k_recent"),
+    "f_seq2": ("seq2", "k_seq2"), "f_seq3": ("seq3", "k_seq3"),
 }
 
 
