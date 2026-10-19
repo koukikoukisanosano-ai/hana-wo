@@ -1,16 +1,5 @@
 [
  {
-  "received": "2026-10-17 21:34:40",
-  "url": "https://ana-slo.com/2026-10-13-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 76,
-  "rest_len": 0,
-  "lines": 2,
-  "has_title": false,
-  "has_total": false,
-  "n_rows": 0,
-  "head": ""
- },
- {
   "received": "2026-10-17 21:34:41",
   "url": "https://ana-slo.com/2026-10-12-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 76,
@@ -218,5 +207,16 @@
   "has_total": false,
   "n_rows": 65,
   "head": "<title>2026/09/18 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">3,043</td>\n<td class=\"table_cells\">-1,065</td>\n<td class=\"table_cells\">5</td>\n<td class=\"table_cells\">11</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/190.2</td>\n<td class=\"table_cells\">1/608.6</td>\n<td class=\"table_cells\">1/276.6</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"t"
+ },
+ {
+  "received": "2026-10-19 21:07:08",
+  "url": "https://ana-slo.com/2026-09-17-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27669,
+  "rest_len": 27593,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/09/17 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">2,618</td>\n<td class=\"table_cells\">-519</td>\n<td class=\"table_cells\">8</td>\n<td class=\"table_cells\">6</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/187.0</td>\n<td class=\"table_cells\">1/327.2</td>\n<td class=\"table_cells\">1/436.3</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"tabl"
  }
 ]
