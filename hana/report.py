@@ -210,7 +210,7 @@ def judge_grid(hist: pd.DataFrame, units: list[int], cfg, days: int = 14) -> str
         hi = sum(1 for j in js if j >= cfg.high_min)
         rows.append(f"<tr><th>{u}</th>{''.join(cells)}<td class='num'>{avg}</td><td class='num'>{hi}</td></tr>")
     return (f"<h2>台ごとの判定設定（直近{len(dates)}日）</h2>"
-            f"<p class='note'>その日のBIG・REG（合算）と差枚から一番近い設定。REGは設定差が大きいので{cfg.reg_weight:g}倍重く見ています。"
+            f"<p class='note'>その日のBIG・REG（合算）と差枚から一番近い設定。差枚がプラスで終わった日は高設定寄りに判定します。"
             f"差枚は、ボーナス回数から見込まれる分を差し引いた上乗せ分（小役の引き）が、設定ごとの機械割から出る期待獲得枚数に届いているかを見ています。"
             f"{cfg.judge_min_games:,}G未満の日は判定なし（·）。1日だけの判定は運でぶれるので、何日分かまとめて見てください。"
             f"マスを長押しすると回転数とボーナス回数が出ます。</p>"

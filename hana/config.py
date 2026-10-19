@@ -25,9 +25,10 @@ def model_settings(cfg: dict):
     return Settings(
         keyword=t.get("keyword", "ハナハナ"),
         high_min=int(t.get("high_min", 5)),
-        reg_weight=float(t.get("reg_weight", 1.5)),
+        reg_weight=float(t.get("reg_weight", 1.0)),
         judge_min_games=int(t.get("judge_min_games", 2000)),
         diff_weight=float(t.get("diff_weight", 1.0)),
+        plus_weight=float(t.get("plus_weight", 1.0)),
         event_digits=tuple(h.get("event_digits", [0, 5])),
         prev_max_gap=int(p.get("prev_max_gap", 1)),
         islands=[list(map(int, x)) for x in islands] if islands else None,
