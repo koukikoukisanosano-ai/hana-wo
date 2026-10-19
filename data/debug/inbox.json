@@ -1,16 +1,5 @@
 [
  {
-  "received": "2026-10-17 21:33:28",
-  "url": "https://ana-slo.com/2026-10-17-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 76,
-  "rest_len": 0,
-  "lines": 2,
-  "has_title": false,
-  "has_total": false,
-  "n_rows": 0,
-  "head": ""
- },
- {
   "received": "2026-10-17 21:33:29",
   "url": "https://ana-slo.com/2026-10-16-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 76,
@@ -218,5 +207,16 @@
   "has_total": false,
   "n_rows": 65,
   "head": "<title>2026/09/22 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">4,705</td>\n<td class=\"table_cells\">-911</td>\n<td class=\"table_cells\">12</td>\n<td class=\"table_cells\">12</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/196.0</td>\n<td class=\"table_cells\">1/392.1</td>\n<td class=\"table_cells\">1/392.1</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"ta"
+ },
+ {
+  "received": "2026-10-19 20:40:02",
+  "url": "https://ana-slo.com/2026-09-21-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27788,
+  "rest_len": 27712,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/09/21 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">7,364</td>\n<td class=\"table_cells\">+3,477</td>\n<td class=\"table_cells\">40</td>\n<td class=\"table_cells\">19</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/124.8</td>\n<td class=\"table_cells\">1/184.1</td>\n<td class=\"table_cells\">1/387.6</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\""
  }
 ]
