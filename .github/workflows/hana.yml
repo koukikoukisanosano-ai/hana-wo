@@ -3,7 +3,7 @@ name: ハナハナ予想
 on:
   schedule:
     - cron: '41 22 * * *'    # 毎朝 7:41（日本時間）: 今日の予想ページを作成
-    - cron: '41 13 * * *'    # 毎晩 22:41（日本時間）: iPhoneが翌朝取りに行くページの一覧を更新
+    - cron: '7 * * * *'      # 1時間ごと: 取りに行くページの一覧を入れ替え（届かない日付を後ろへ）＋取りこぼしの処理
   issue_comment:
     types: [created]                         # iPhoneからデータが届いたとき
   push:
@@ -54,7 +54,7 @@ jobs:
         run: |
           MODE="${{ inputs.mode }}"
           if [ -z "$MODE" ]; then
-            if [ "${{ github.event_name }}" = "schedule" ]; then MODE=daily; else MODE=inbox; fi
+            if [ "${{ github.event.schedule }}" = "41 22 * * *" ]; then MODE=daily; else MODE=inbox; fi
           fi
           echo "実行モード: $MODE"
           if [ "$MODE" = "diag" ]; then

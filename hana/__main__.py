@@ -164,7 +164,7 @@ def write_next(cfg, db, root: Path) -> list[str]:
     from .sources import phone
     tmpl = cfg["hall"].get("anaslo_day_url",
                            "https://ana-slo.com/{date}-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/")
-    n = int(cfg.get("phone", {}).get("pages_per_run", 4))
+    n = int(cfg.get("phone", {}).get("pages_per_run", 1))
     hp = root / "data" / "handout.json"
     try:
         handout = json.loads(hp.read_text(encoding="utf-8")) if hp.exists() else {}

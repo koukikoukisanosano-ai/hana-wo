@@ -17,7 +17,7 @@ target:
   islands: []
 
 phone:
-  pages_per_run: 2          # iPhoneが1回に取りに行くページ数（多いとショートカットがメモリ不足で止まる）
+  pages_per_run: 1          # iPhoneが1回に取りに行くページ数（自動実行では2ページ目で止まりやすいので1）
 
 fetch:
   anaslo_direct: false      # クラウドから直接アナスロへ取りに行くか（GitHubからは拒否されるので false）

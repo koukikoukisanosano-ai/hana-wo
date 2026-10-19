@@ -111,20 +111,57 @@ def process(db, root: Path, stats: dict | None = None) -> dict:
     return stats
 
 
-def next_urls(db, today: Date, url_tmpl: str, n: int = 4, window_days: int = 390,
-              handout: dict | None = None) -> list[str]:
-    """iPhone が次に取りに行くページ。新しい日付から順に、まだ取れていない日。
+def _norm_handout(handout: dict, now: datetime) -> None:
+    """古い形式（{日付: 最初に載せた日時}）を {日付: {"fails": 回数}} に直す。"""
+    for k, v in list(handout.items()):
+        if k.startswith("_"):
+            continue
+        if isinstance(v, str):
+            try:
+                age = now - datetime.fromisoformat(v)
+            except Exception:
+                age = timedelta(0)
+            handout[k] = {"fails": 1 if age > timedelta(hours=3) else 0}
+        elif not isinstance(v, dict):
+            handout[k] = {"fails": 0}
 
-    handout: {日付: 最初に一覧に載せた日時} — 24時間以上載せても結果が届かない日付は
-    （ページの問題でショートカットが止まっている可能性があるので）一覧の最後に回す。
+
+def next_urls(db, today: Date, url_tmpl: str, n: int = 1, window_days: int = 390,
+              handout: dict | None = None, rotate_hours: float = 3.0) -> list[str]:
+    """iPhone が次に取りに行くページ。まだ取れていない日を、新しい日付から順に。
+
+    1つのページで毎回ショートカットが止まると、その日付が先頭にある間は何も届かなくなる。
+    そこで、先頭に rotate_hours 時間置いても届かなかった日付は「失敗1回」と数えて後ろに回す
+    （この関数は1時間ごとに呼ばれる）。並び順は 失敗回数が少ない順 → 新しい日付順。
+    直近2日分は予想に一番効くので、失敗2回までは先頭に置く。
+    handout: {"_front": {"date", "since"}, 日付: {"fails", "last_fail"}}（data/handout.json）
     """
     with db.conn() as c:
         rows = c.execute("SELECT date, status, fetched_at FROM fetch_log WHERE source=?", (SOURCE,)).fetchall()
     log_by = {d: (s, t) for d, s, t in rows}
     now = datetime.now(JST).replace(tzinfo=None)
     handout = handout if handout is not None else {}
-    fresh, stuck = [], []
-    for k in range(1, window_days):          # 当日分はまだ公開されないので前日から
+    _norm_handout(handout, now)
+
+    # 先頭に置いていた日付が、時間がたっても届かなかった → 失敗として数える
+    front = handout.get("_front") or {}
+    fd = front.get("date")
+    if fd and log_by.get(fd, ("", ""))[0] != "ok":
+        try:
+            since = datetime.fromisoformat(front.get("since", ""))
+        except Exception:
+            since = now
+        if now - since >= timedelta(hours=rotate_hours):
+            e = handout.setdefault(fd, {"fails": 0})
+            e["fails"] = int(e.get("fails", 0)) + 1
+            e["last_fail"] = now.isoformat(timespec="seconds")
+            handout.pop("_front", None)
+            fd = None
+
+    cands = []
+    # 当日分はまだ公開されないので前日から。前日分も朝までは公開されていないことがあるので7時から
+    first_k = 1 if now.hour >= 7 else 2
+    for k in range(first_k, window_days):
         d = today - timedelta(days=k)
         key = d.isoformat()
         st = log_by.get(key)
@@ -137,26 +174,20 @@ def next_urls(db, today: Date, url_tmpl: str, n: int = 4, window_days: int = 390
                 last = datetime.fromisoformat(t)
             except Exception:
                 last = now - timedelta(days=30)
-            recent = (today - d).days <= 10
-            # 最近の日はデータ公開が遅れることがあるので数時間おきに再確認、古い日は1日1回まで
+            recent = k <= 10
+            # 「空ページ」「データなし」で届いた日は、最近なら数時間おき、古ければ1日おきに取り直す
             wait = timedelta(hours=3) if recent else timedelta(days=1)
             if now - last < wait:
                 continue
             if not recent and status == "empty":
                 continue        # 古い日でページ自体がない → もう取りに行かない
-        first = handout.get(key)
-        try:
-            first_dt = datetime.fromisoformat(first) if first else None
-        except Exception:
-            first_dt = None
-        if first_dt and now - first_dt > timedelta(days=7) and (today - d).days > 10:
-            continue            # 1週間たっても取れない古い日はあきらめる
-        (stuck if first_dt and now - first_dt > timedelta(hours=24) else fresh).append(key)
-        if len(fresh) >= n:
-            break
-    chosen = (fresh + stuck)[:n]
-    for key in chosen:
-        handout.setdefault(key, now.isoformat(timespec="seconds"))
+        fails = int(handout.get(key, {}).get("fails", 0))
+        eff = max(0, fails - 2) if k <= 2 else fails
+        cands.append((eff, k, key))
+    cands.sort()
+    chosen = [key for _, _, key in cands[:n]]
+    if chosen and chosen[0] != fd:
+        handout["_front"] = {"date": chosen[0], "since": now.isoformat(timespec="seconds")}
     out = [url_tmpl.format(date=key) for key in chosen]
     if not out:   # 空だとiPhoneのショートカットがエラーになるので、前日分を1件だけ入れておく
         out.append(url_tmpl.format(date=(today - timedelta(days=1)).isoformat()))
