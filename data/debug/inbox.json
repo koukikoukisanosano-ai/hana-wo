@@ -1,16 +1,5 @@
 [
  {
-  "received": "2026-10-19 22:26:27",
-  "url": "https://ana-slo.com/2026-08-21-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 27753,
-  "rest_len": 27677,
-  "lines": 717,
-  "has_title": true,
-  "has_total": false,
-  "n_rows": 65,
-  "head": "<title>2026/08/21 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">5,762</td>\n<td class=\"table_cells\">+19</td>\n<td class=\"table_cells\">23</td>\n<td class=\"table_cells\">11</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/169.5</td>\n<td class=\"table_cells\">1/250.5</td>\n<td class=\"table_cells\">1/523.8</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"tab"
- },
- {
   "received": "2026-10-19 22:27:12",
   "url": "https://ana-slo.com/2026-08-20-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 28071,
@@ -218,5 +207,16 @@
   "has_total": false,
   "n_rows": 65,
   "head": "<title>2026/08/09 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">7,032</td>\n<td class=\"table_cells\">-385</td>\n<td class=\"table_cells\">26</td>\n<td class=\"table_cells\">16</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/167.4</td>\n<td class=\"table_cells\">1/270.5</td>\n<td class=\"table_cells\">1/439.5</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"ta"
+ },
+ {
+  "received": "2026-10-20 08:30:21",
+  "url": "https://ana-slo.com/2026-10-19-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 100,
+  "rest_len": 24,
+  "lines": 2,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 0,
+  "head": "<title>404 -アナスロ</title>"
  }
 ]
