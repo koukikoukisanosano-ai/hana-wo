@@ -1,16 +1,5 @@
 [
  {
-  "received": "2026-10-19 22:09:36",
-  "url": "https://ana-slo.com/2026-09-04-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 27765,
-  "rest_len": 27689,
-  "lines": 717,
-  "has_title": true,
-  "has_total": false,
-  "n_rows": 65,
-  "head": "<title>2026/09/04 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">7,122</td>\n<td class=\"table_cells\">+204</td>\n<td class=\"table_cells\">24</td>\n<td class=\"table_cells\">22</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/154.8</td>\n<td class=\"table_cells\">1/296.8</td>\n<td class=\"table_cells\">1/323.7</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"ta"
- },
- {
   "received": "2026-10-19 22:12:24",
   "url": "https://ana-slo.com/2026-09-03-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 27714,
@@ -218,5 +207,16 @@
   "has_total": false,
   "n_rows": 65,
   "head": "<title>2026/08/22 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">6,815</td>\n<td class=\"table_cells\">-727</td>\n<td class=\"table_cells\">24</td>\n<td class=\"table_cells\">15</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/174.7</td>\n<td class=\"table_cells\">1/284.0</td>\n<td class=\"table_cells\">1/454.3</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"ta"
+ },
+ {
+  "received": "2026-10-19 22:26:27",
+  "url": "https://ana-slo.com/2026-08-21-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27753,
+  "rest_len": 27677,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/08/21 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">5,762</td>\n<td class=\"table_cells\">+19</td>\n<td class=\"table_cells\">23</td>\n<td class=\"table_cells\">11</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/169.5</td>\n<td class=\"table_cells\">1/250.5</td>\n<td class=\"table_cells\">1/523.8</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"tab"
  }
 ]
