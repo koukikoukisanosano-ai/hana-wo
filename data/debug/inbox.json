@@ -207,5 +207,16 @@
   "has_total": true,
   "n_rows": 65,
   "head": "<title>2026/09/26 オーギヤWO データまとめ - アナスロ</title>\n<table class=\"total_get_medals_table\">\n<tbody>\n<tr>\n<th>総差枚</th>\n<th>平均差枚</th>\n<th>平均G数</th>\n<th>勝率</th>\n</tr>\n<tr>\n<td class=\"table_cells\">+35,800</td>\n<td class=\"table_cells\">+117</td>\n<td class=\"table_cells\">4,674</td>\n<td class=\"table_cells\">40.7%(124/305)</td>\n</tr>\n</tbody>\n</table>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">5,436</td>\n<td class=\"table_cells\">-657</td>\n<td class=\"table_cells\">17</td>\n<td class=\"table_cells\">11</td>\n<td class=\"tabl"
+ },
+ {
+  "received": "2026-10-19 20:27:52",
+  "url": "https://ana-slo.com/2026-09-23-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 28046,
+  "rest_len": 27970,
+  "lines": 733,
+  "has_title": true,
+  "has_total": true,
+  "n_rows": 65,
+  "head": "<title>2026/09/23 オーギヤWO データまとめ - アナスロ</title>\n<table class=\"total_get_medals_table\">\n<tbody>\n<tr>\n<th>総差枚</th>\n<th>平均差枚</th>\n<th>平均G数</th>\n<th>勝率</th>\n</tr>\n<tr>\n<td class=\"table_cells\">+19,480</td>\n<td class=\"table_cells\">+64</td>\n<td class=\"table_cells\">3,245</td>\n<td class=\"table_cells\">38.7%(118/305)</td>\n</tr>\n</tbody>\n</table>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">5,475</td>\n<td class=\"table_cells\">-297</td>\n<td class=\"table_cells\">18</td>\n<td class=\"table_cells\">13</td>\n<td class=\"table"
  }
 ]
