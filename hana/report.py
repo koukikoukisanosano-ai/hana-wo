@@ -13,6 +13,8 @@ from . import model as M
 E = html.escape
 
 CSS = """
+table.jgrid td.jg{text-align:center;min-width:26px;font-weight:600;color:#222}
+table.jgrid th{white-space:nowrap}
 :root{--bg:#f6f4ef;--card:#fff;--ink:#1d1b18;--sub:#6b665d;--line:#e4dfd4;--accent:#c8324b;--accent2:#e98a2b;
 --good:#1f8a5b;--bad:#9a948a;--heat0:#f1ede4;--heat1:#f9d7c4;--heat2:#f4a98a;--heat3:#e66a5a;--heat4:#c8324b;--warn:#fff4dc;--warnline:#e9c46a}
 @media (prefers-color-scheme:dark){:root{--bg:#141311;--card:#1e1c19;--ink:#efebe3;--sub:#a59f94;--line:#34312b;--accent:#ff6b81;
@@ -39,7 +41,7 @@ tr.top td{background:color-mix(in srgb,var(--accent) 7%,var(--card))}
 .pct{font-weight:700;font-size:16px}.ratio{color:var(--sub);font-size:12px}
 .chip{display:inline-block;border-radius:3px;padding:0 6px;margin:2px 4px 2px 0;font-size:12px;border:1px solid var(--line)}
 .chip.p{border-color:var(--good);color:var(--good)}.chip.m{color:var(--bad)}
-.prev{font-size:12px;color:var(--sub);white-space:nowrap}.prev b{color:var(--ink);font-weight:600}
+.prev{font-size:12px;color:var(--sub);white-space:normal}.prev b{color:var(--ink);font-weight:600}
 .map{display:flex;flex-direction:column;gap:12px}.island{display:flex;flex-wrap:wrap;gap:4px}
 .cell{width:56px;height:56px;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;
 font-weight:700;border:1px solid var(--line);font-size:15px}.cell small{font-size:11px;font-weight:500}
@@ -163,6 +165,53 @@ def check_section(hist: pd.DataFrame, pred_dir: Path | None, target: Date, top_k
             "<p class='note'>この仕組みが毎朝出した予想を、後から公開された実データで採点したものです（推定＝BB・REGから推定した設定）。</p>")
 
 
+def judge_txt(r) -> str:
+    j = r.get("judge")
+    if j is None or pd.isna(j):
+        return "<span class='note'>G数少なく判定なし</span>"
+    ga = f"合算1/{r['gassan']:.0f}" if pd.notna(r.get("gassan")) else "合算-"
+    rg = f"REG1/{r['reg_den']:.0f}" if pd.notna(r.get("reg_den")) else "REG0回"
+    return f"判定<b>設定{int(j)}</b>（{ga}・{rg}）"
+
+
+JUDGE_BG = {1: "#e8edf3", 2: "#dfe7ef", 3: "#f1ecd9", 4: "#f6dcae", 5: "#f3a87c", 6: "#e5684f"}
+
+
+def judge_grid(hist: pd.DataFrame, units: list[int], cfg, days: int = 14) -> str:
+    """台×日付の判定設定の表（直近days日）。"""
+    if hist is None or hist.empty or "judge" not in hist:
+        return ""
+    dates = sorted(hist["date"].unique())[-days:]
+    h = hist[hist["date"].isin(dates)]
+    look = {(int(r.unit), r.date): r for r in h.itertuples()}
+    head = "".join(f"<th>{pd.Timestamp(d):%m/%d}</th>" for d in dates)
+    rows = []
+    for u in sorted(units):
+        cells = []
+        js = []
+        for d in dates:
+            r = look.get((u, d))
+            if r is None:
+                cells.append("<td class='jg'>-</td>")
+                continue
+            j = r.judge
+            if pd.isna(j):
+                cells.append(f"<td class='jg' title='{int(r.games):,}G'>·</td>")
+                continue
+            js.append(j)
+            tip = f"{int(r.games):,}G BB{int(r.bb)} RB{int(r.rb)} 合算1/{r.gassan:.0f}" + (f" REG1/{r.reg_den:.0f}" if pd.notna(r.reg_den) else "")
+            cells.append(f"<td class='jg' style='background:{JUDGE_BG[int(j)]}' title='{E(tip)}'>{int(j)}</td>")
+        avg = f"{np.mean(js):.1f}" if js else "-"
+        hi = sum(1 for j in js if j >= cfg.high_min)
+        rows.append(f"<tr><th>{u}</th>{''.join(cells)}<td class='num'>{avg}</td><td class='num'>{hi}</td></tr>")
+    return (f"<h2>台ごとの判定設定（直近{len(dates)}日）</h2>"
+            f"<p class='note'>その日のBIG・REG（合算）から一番近い設定。REGは設定差が大きいので{cfg.reg_weight:g}倍重く見ています。"
+            f"{cfg.judge_min_games:,}G未満の日は判定なし（·）。1日だけの判定は運でぶれるので、何日分かまとめて見てください。"
+            f"マスを長押しすると回転数とボーナス回数が出ます。</p>"
+            f"<div class='scroll'><table class='mini jgrid'><tr><th>台</th>{head}<th>平均</th><th>{cfg.high_min}以上</th></tr>"
+            + "".join(rows) + "</table></div>")
+
+
 def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_n: int,
           bt: dict | None, cov: dict, out_dir: Path, extra_warns: list[str] | None = None,
           pred_dir: Path | None = None, info_line: str = "") -> Path:
@@ -227,8 +276,8 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
         if lr is not None:
             prev = (f"<div class='prev'>{lr['date']:%m/%d} <b>{fmt_int(lr['games'])}G</b> "
                     f"BB{int(lr['bb'])}/RB{int(lr['rb'])} <b>{fmt_int(lr['diff'], True)}枚</b> "
-                    f"推定{lr['e_set']:.1f}</div>")
-        sp = spark(list(by_unit[u]["e_set"].fillna(3).tail(10))) if u in by_unit else ""
+                    f"{judge_txt(lr)}</div>")
+        sp = spark(list(by_unit[u]["judge"].ffill().fillna(3).tail(10))) if u in by_unit else ""
         width = min(100, p / max(pred["score"].max(), 1e-9) * 100)
         trs.append(
             f"<tr class='{'top' if r['rank'] <= top_n else ''}'><td class='rank'>{int(r['rank'])}</td>"
@@ -237,7 +286,8 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
             f"<div class='ratio'>平常の×{ratio:.2f}</div></td><td class='reasons'>{chips or '<span class=note>特になし</span>'}</td>"
             f"<td class='prevc'>{prev}</td><td class='sparkc'>{sp}</td></tr>")
     table = ("<table class='rk'><tr class='hd'><th>順位</th><th>台番</th><th>高設定期待度</th><th>主な根拠</th><th>前回データ</th>"
-             "<th>直近の推定設定</th></tr>" + "".join(trs) + "</table>")
+             "<th>直近の判定設定</th></tr>" + "".join(trs) + "</table>")
+    judgesec = judge_grid(hist, pred["unit"].astype(int).tolist(), cfg)
 
     # 島マップ
     units_sorted = sorted(pred["unit"].astype(int).tolist())
@@ -310,7 +360,7 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
 
     doc = (f"<!doctype html><html lang='ja'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
            f"<title>ハナハナ予想 {target:%m/%d}</title><style>{CSS}</style></head><body><div class='wrap'>"
-           f"{head}{status}{warn_html}<h2>台別ランキング</h2>{table}{mapsec}{check_section(hist, pred_dir, target)}"
+           f"{head}{status}{warn_html}<h2>台別ランキング</h2>{table}{mapsec}{judgesec}{check_section(hist, pred_dir, target)}"
            f"{habit}{btsec}{foot}</div></body></html>")
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / f"{target:%Y-%m-%d}.html"

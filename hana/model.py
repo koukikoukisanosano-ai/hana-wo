@@ -37,6 +37,7 @@ FACTORS = {
     "f_prevdiff": ("前回の差枚", 60.0),
     "f_prevhigh": ("前回の挙動", 60.0),
     "f_streak":   ("連続凹み", 60.0),
+    "f_recent":   ("直近7日の判定設定", 60.0),
 }
 HALL_FACTORS = {"h_digit": "店全体・日付末尾", "h_wday": "店全体・曜日"}
 
@@ -51,6 +52,8 @@ class Settings:
     islands: list[list[int]] | None = None   # [[開始, 終了], ...] 未指定なら連番の塊を島とみなす
     l2: float = 4.0                # 重みを1（素直な足し算）に寄せる強さ
     min_train_days: int = 45       # これ未満のデータ日数なら重み調整をせず素直に足す
+    reg_weight: float = 1.5        # REGをBIGより何倍重く見るか（REGは設定差が大きい）
+    judge_min_games: int = 2000    # これ未満のG数の日は設定を判定しない
 
 
 # ---------------------------------------------------------------- 前処理
@@ -58,7 +61,8 @@ def prepare(units: pd.DataFrame, cfg: Settings) -> tuple[pd.DataFrame, np.ndarra
     df = units[units["model"].str.contains(cfg.keyword, na=False)].copy()
     df = df.dropna(subset=["games", "bb", "rb"])
     df["date"] = pd.to_datetime(df["date"])
-    df, prior = add_estimates(df, high_min=cfg.high_min, min_games=300)
+    df, prior = add_estimates(df, high_min=cfg.high_min, min_games=300,
+                              reg_weight=cfg.reg_weight, judge_min_games=cfg.judge_min_games)
     info = np.clip(df["games"].to_numpy(float) / 6000.0, 0.0, 1.0)
     info = np.where(df["games"] < cfg.label_min_games, 0.0, info)
     info = np.where(df.get("est", 0) == 1, info * 0.5, info)
@@ -135,7 +139,37 @@ def add_prev(df: pd.DataFrame, cfg: Settings) -> pd.DataFrame:
         if units[i] == units[i - 1] and (dates[i] - dates[i - 1]) <= np.timedelta64(cfg.prev_max_gap, "D"):
             streak[i] = streak[i - 1] + 1 if lows[i - 1] else 0
     df["streak"] = streak
+    df["recent_judge"], df["recent_n"] = recent_judge(df, df["unit"].to_numpy(), df["date"].to_numpy())
     return df.sort_values(["date", "unit"]).reset_index(drop=True)
+
+
+def recent_judge(hist: pd.DataFrame, units, dates, days: int = 7):
+    """各(台, 日)について、その日より前の days 日間の判定設定の平均と日数。"""
+    h = hist.dropna(subset=["judge"])[["unit", "date", "judge"]]
+    by = {u: (g["date"].to_numpy(), g["judge"].to_numpy(float)) for u, g in h.groupby("unit")}
+    mean = np.full(len(units), np.nan)
+    n = np.zeros(len(units), dtype=int)
+    span = np.timedelta64(days, "D")
+    for i, (u, d) in enumerate(zip(units, dates)):
+        if u not in by:
+            continue
+        dd, jj = by[u]
+        d = np.datetime64(d)
+        m = (dd < d) & (dd >= d - span)
+        if m.any():
+            mean[i] = jj[m].mean()
+            n[i] = int(m.sum())
+    return mean, n
+
+
+def recent_bucket(mean, n) -> str:
+    if n < 3 or pd.isna(mean):
+        return "なし"
+    if mean < 2.5:
+        return "低め"
+    if mean < 3.5:
+        return "普通"
+    return "高め"
 
 
 def add_keys(df: pd.DataFrame, cfg: Settings, pos: dict[int, str]) -> pd.DataFrame:
@@ -152,6 +186,7 @@ def add_keys(df: pd.DataFrame, cfg: Settings, pos: dict[int, str]) -> pd.DataFra
     df["k_prevhigh"] = np.where(df["prev_p"].isna(), "なし",
                          np.where(df["prev_p"] >= 0.30, "高設定挙動", "通常"))
     df["k_streak"] = np.where(df["streak"] >= 3, "3日以上", df["streak"].astype(int).astype(str) + "日")
+    df["k_recent"] = [recent_bucket(m, n) for m, n in zip(df["recent_judge"], df["recent_n"])]
     return df
 
 
@@ -334,6 +369,8 @@ def candidates(model: Model, target: Date) -> pd.DataFrame:
     lows = (lastrows["diff"] <= -500) & (lastrows["p_high"].fillna(0) < 0.15)
     cur["streak"] = [int((lastrows.loc[u, "streak"] + 1) if (ok.get(u, False) and lows.get(u, False)) else 0)
                      for u in cur["unit"]]
+    cur["recent_judge"], cur["recent_n"] = recent_judge(df, cur["unit"].to_numpy(),
+                                                        np.full(len(cur), np.datetime64(t)))
     cur = add_keys(cur.reset_index(drop=True), model.cfg, pos)
     return cur
 
@@ -382,6 +419,7 @@ def summarize_habits(df: pd.DataFrame, hall: pd.DataFrame) -> dict:
     out["prevdiff"] = table("k_prevdiff", lambda v: f"前日{v}")
     out["prevhigh"] = table("k_prevhigh", lambda v: f"前日{v}")
     out["streak"] = table("k_streak", lambda v: f"凹み{v}")
+    out["recent"] = table("k_recent", lambda v: f"直近7日の判定が{v}")
     out["unit"] = table("k_unit", lambda v: f"{v}番")
     # 店全体（全機種）の日付末尾別 平均差枚
     h = hall.dropna(subset=["avg_diff"]).copy()
@@ -400,6 +438,7 @@ _REASON_KEYS = {
     "f_unit": ("unit", "k_unit"), "f_udigit": ("udigit", "k_udigit"), "f_match": ("match", "k_match"),
     "f_corner": ("corner", "k_corner"), "f_prevdiff": ("prevdiff", "k_prevdiff"),
     "f_prevhigh": ("prevhigh", "k_prevhigh"), "f_streak": ("streak", "k_streak"),
+    "f_recent": ("recent", "k_recent"),
 }
 
 
@@ -423,6 +462,8 @@ def reasons(row: pd.Series, model: Model, top: int = 4, min_effect: float = 0.06
             label = str(h["label"])
             if c == "f_unit":
                 label = "この台の実績"
+            if c == "f_recent" and pd.notna(row.get("recent_judge")):
+                label = f"直近7日の判定 平均{row['recent_judge']:.1f}"
             if c == "f_prevdiff" and pd.notna(row.get("prev_diff")):
                 label += f"({int(row['prev_diff']):+,}枚)"
             text = f"{label} ×{h['ratio']:.2f}"
