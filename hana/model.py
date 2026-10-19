@@ -48,10 +48,7 @@ class Settings:
     islands: list[list[int]] | None = None   # [[開始, 終了], ...] 未指定なら連番の塊を島とみなす
     l2: float = 4.0                # 重みを1（素直な足し算）に寄せる強さ
     min_train_days: int = 45       # これ未満のデータ日数なら重み調整をせず素直に足す
-    reg_weight: float = 1.0        # REGをBIGより何倍重く見るか
     judge_min_games: int = 2000    # これ未満のG数の日は設定を判定しない
-    diff_weight: float = 1.0       # 差枚（期待獲得枚数に届いているか）をどれだけ重く見るか
-    plus_weight: float = 1.0       # 差枚プラスで終わったかをどれだけ重く見るか
 
 
 # ---------------------------------------------------------------- 前処理
@@ -59,9 +56,7 @@ def prepare(units: pd.DataFrame, cfg: Settings) -> tuple[pd.DataFrame, np.ndarra
     df = units[units["model"].str.contains(cfg.keyword, na=False)].copy()
     df = df.dropna(subset=["games", "bb", "rb"])
     df["date"] = pd.to_datetime(df["date"])
-    df, prior = add_estimates(df, high_min=cfg.high_min, min_games=300,
-                              reg_weight=cfg.reg_weight, judge_min_games=cfg.judge_min_games,
-                              diff_weight=cfg.diff_weight, plus_weight=cfg.plus_weight)
+    df, prior = add_estimates(df, high_min=cfg.high_min, min_games=300, judge_min_games=cfg.judge_min_games)
     info = np.clip(df["games"].to_numpy(float) / 6000.0, 0.0, 1.0)
     info = np.where(df["games"] < cfg.label_min_games, 0.0, info)
     info = np.where(df.get("est", 0) == 1, info * 0.5, info)
