@@ -19,7 +19,7 @@ SOURCE = "anaslo"
 JST = timezone(timedelta(hours=9))
 
 # iPhone のショートカットで使う正規表現（ガイドページにも同じものを載せる）
-PHONE_REGEX = (r'<title>[^<]*</title>|<table[^>]*total_get_medals_table[\s\S]*?</table>|'
+PHONE_REGEX = (r'<title>[^<]*</title>|'   # 店全体の集計表は重いので外した（届けば使う）
                r'<td class="fixed01"[^>]*>[^<]*ハナハナ[^<]*</td>(?:\s*<td[^>]*>[^<]*</td>){10}')
 ROW_RE = re.compile(r'<td class="fixed01"[^>]*>[^<]*ハナハナ[^<]*</td>(?:\s*<td[^>]*>[^<]*</td>){10}')
 TOTAL_RE = re.compile(r'<table[^>]*total_get_medals_table[\s\S]*?</table>')
