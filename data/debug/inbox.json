@@ -1,17 +1,6 @@
 [
  {
   "received": "2026-10-17 21:34:40",
-  "url": "https://ana-slo.com/2026-10-14-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 76,
-  "rest_len": 0,
-  "lines": 2,
-  "has_title": false,
-  "has_total": false,
-  "n_rows": 0,
-  "head": ""
- },
- {
-  "received": "2026-10-17 21:34:40",
   "url": "https://ana-slo.com/2026-10-13-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 76,
   "rest_len": 0,
@@ -218,5 +207,16 @@
   "has_total": true,
   "n_rows": 65,
   "head": "<title>2026/09/19 オーギヤWO データまとめ - アナスロ</title>\n<table class=\"total_get_medals_table\">\n<tbody>\n<tr>\n<th>総差枚</th>\n<th>平均差枚</th>\n<th>平均G数</th>\n<th>勝率</th>\n</tr>\n<tr>\n<td class=\"table_cells\">+20,809</td>\n<td class=\"table_cells\">+68</td>\n<td class=\"table_cells\">4,131</td>\n<td class=\"table_cells\">37.0%(113/305)</td>\n</tr>\n</tbody>\n</table>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">9,096</td>\n<td class=\"table_cells\">+341</td>\n<td class=\"table_cells\">32</td>\n<td class=\"table_cells\">24</td>\n<td class=\"table"
+ },
+ {
+  "received": "2026-10-19 21:06:28",
+  "url": "https://ana-slo.com/2026-09-18-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27724,
+  "rest_len": 27648,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/09/18 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">3,043</td>\n<td class=\"table_cells\">-1,065</td>\n<td class=\"table_cells\">5</td>\n<td class=\"table_cells\">11</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/190.2</td>\n<td class=\"table_cells\">1/608.6</td>\n<td class=\"table_cells\">1/276.6</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"t"
  }
 ]
