@@ -1,27 +1,5 @@
 [
  {
-  "received": "2026-10-17 21:34:41",
-  "url": "https://ana-slo.com/2026-10-12-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 76,
-  "rest_len": 0,
-  "lines": 2,
-  "has_title": false,
-  "has_total": false,
-  "n_rows": 0,
-  "head": ""
- },
- {
-  "received": "2026-10-17 21:41:11",
-  "url": "https://ana-slo.com/2026-10-11-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 28079,
-  "rest_len": 28003,
-  "lines": 733,
-  "has_title": true,
-  "has_total": true,
-  "n_rows": 65,
-  "head": "<title>2026/10/11 オーギヤWO データまとめ - アナスロ</title>\n<table class=\"total_get_medals_table\">\n<tbody>\n<tr>\n<th>総差枚</th>\n<th>平均差枚</th>\n<th>平均G数</th>\n<th>勝率</th>\n</tr>\n<tr>\n<td class=\"table_cells\">+36,454</td>\n<td class=\"table_cells\">+120</td>\n<td class=\"table_cells\">4,142</td>\n<td class=\"table_cells\">38.4%(117/305)</td>\n</tr>\n</tbody>\n</table>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">7,025</td>\n<td class=\"table_cells\">+692</td>\n<td class=\"table_cells\">28</td>\n<td class=\"table_cells\">19</td>\n<td class=\"tabl"
- },
- {
   "received": "2026-10-17 21:41:57",
   "url": "https://ana-slo.com/2026-10-10-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 28089,
@@ -218,5 +196,27 @@
   "has_total": false,
   "n_rows": 65,
   "head": "<title>2026/09/17 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">2,618</td>\n<td class=\"table_cells\">-519</td>\n<td class=\"table_cells\">8</td>\n<td class=\"table_cells\">6</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/187.0</td>\n<td class=\"table_cells\">1/327.2</td>\n<td class=\"table_cells\">1/436.3</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"tabl"
+ },
+ {
+  "received": "2026-10-19 21:09:54",
+  "url": "https://ana-slo.com/2026-09-16-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27694,
+  "rest_len": 27618,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/09/16 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">7,864</td>\n<td class=\"table_cells\">+1,854</td>\n<td class=\"table_cells\">36</td>\n<td class=\"table_cells\">21</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/138.0</td>\n<td class=\"table_cells\">1/218.4</td>\n<td class=\"table_cells\">1/374.5</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\""
+ },
+ {
+  "received": "2026-10-19 21:09:55",
+  "url": "https://ana-slo.com/2026-09-15-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27777,
+  "rest_len": 27701,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/09/15 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">5,696</td>\n<td class=\"table_cells\">+150</td>\n<td class=\"table_cells\">20</td>\n<td class=\"table_cells\">15</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/162.7</td>\n<td class=\"table_cells\">1/284.8</td>\n<td class=\"table_cells\">1/379.7</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"ta"
  }
 ]
