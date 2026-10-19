@@ -1,16 +1,5 @@
 [
  {
-  "received": "2026-10-17 09:23:37",
-  "url": "https://ana-slo.com/2026-10-13-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 76,
-  "rest_len": 0,
-  "lines": 2,
-  "has_title": false,
-  "has_total": false,
-  "n_rows": 0,
-  "head": ""
- },
- {
   "received": "2026-10-17 21:33:28",
   "url": "https://ana-slo.com/2026-10-17-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 76,
@@ -218,5 +207,16 @@
   "has_total": true,
   "n_rows": 65,
   "head": "<title>2026/09/23 オーギヤWO データまとめ - アナスロ</title>\n<table class=\"total_get_medals_table\">\n<tbody>\n<tr>\n<th>総差枚</th>\n<th>平均差枚</th>\n<th>平均G数</th>\n<th>勝率</th>\n</tr>\n<tr>\n<td class=\"table_cells\">+19,480</td>\n<td class=\"table_cells\">+64</td>\n<td class=\"table_cells\">3,245</td>\n<td class=\"table_cells\">38.7%(118/305)</td>\n</tr>\n</tbody>\n</table>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">5,475</td>\n<td class=\"table_cells\">-297</td>\n<td class=\"table_cells\">18</td>\n<td class=\"table_cells\">13</td>\n<td class=\"table"
+ },
+ {
+  "received": "2026-10-19 20:38:44",
+  "url": "https://ana-slo.com/2026-09-22-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27771,
+  "rest_len": 27695,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/09/22 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">4,705</td>\n<td class=\"table_cells\">-911</td>\n<td class=\"table_cells\">12</td>\n<td class=\"table_cells\">12</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/196.0</td>\n<td class=\"table_cells\">1/392.1</td>\n<td class=\"table_cells\">1/392.1</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"ta"
  }
 ]
