@@ -1,16 +1,5 @@
 [
  {
-  "received": "2026-10-19 22:19:01",
-  "url": "https://ana-slo.com/2026-08-28-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
-  "total_len": 27742,
-  "rest_len": 27666,
-  "lines": 717,
-  "has_title": true,
-  "has_total": false,
-  "n_rows": 65,
-  "head": "<title>2026/08/28 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">6,592</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">21</td>\n<td class=\"table_cells\">16</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/178.2</td>\n<td class=\"table_cells\">1/313.9</td>\n<td class=\"table_cells\">1/412.0</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\"table"
- },
- {
   "received": "2026-10-19 22:19:02",
   "url": "https://ana-slo.com/2026-08-28-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 27742,
@@ -210,6 +199,17 @@
  },
  {
   "received": "2026-10-19 22:39:35",
+  "url": "https://ana-slo.com/2026-08-12-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
+  "total_len": 27777,
+  "rest_len": 27701,
+  "lines": 717,
+  "has_title": true,
+  "has_total": false,
+  "n_rows": 65,
+  "head": "<title>2026/08/12 オーギヤWO データまとめ - アナスロ</title>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">668</td>\n<td class=\"table_cells\">5,668</td>\n<td class=\"table_cells\">-2,423</td>\n<td class=\"table_cells\">12</td>\n<td class=\"table_cells\">10</td>\n<td class=\"table_cells\">0</td>\n<td class=\"table_cells\">1/257.6</td>\n<td class=\"table_cells\">1/472.3</td>\n<td class=\"table_cells\">1/566.8</td>\n<td class=\"table_cells\">1/0.0</td>\n<td class=\"fixed01\" style=\"font-size:14px;line-height:150%;\">ハナハナホウオウ～天翔～-30</td>\n<td class=\"table_cells\">669</td>\n<td class=\""
+ },
+ {
+  "received": "2026-10-19 22:40:18",
   "url": "https://ana-slo.com/2026-08-12-%e3%82%aa%e3%83%bc%e3%82%ae%e3%83%a4wo-data/",
   "total_len": 27777,
   "rest_len": 27701,
