@@ -171,7 +171,11 @@ def judge_txt(r) -> str:
         return "<span class='note'>G数少なく判定なし</span>"
     ga = f"合算1/{r['gassan']:.0f}" if pd.notna(r.get("gassan")) else "合算-"
     rg = f"REG1/{r['reg_den']:.0f}" if pd.notna(r.get("reg_den")) else "REG0回"
-    return f"判定<b>設定{int(j)}</b>（{ga}・{rg}）"
+    reach = ""
+    if pd.notna(r.get("exp_diff")) and pd.notna(r.get("diff")):
+        ok = r["diff"] >= r["exp_diff"]
+        reach = f"・設定{int(j)}の期待差枚{r['exp_diff']:+,.0f}に{'到達' if ok else '未達'}"
+    return f"判定<b>設定{int(j)}</b>（{ga}・{rg}{reach}）"
 
 
 JUDGE_BG = {1: "#e8edf3", 2: "#dfe7ef", 3: "#f1ecd9", 4: "#f6dcae", 5: "#f3a87c", 6: "#e5684f"}
@@ -199,13 +203,15 @@ def judge_grid(hist: pd.DataFrame, units: list[int], cfg, days: int = 14) -> str
                 cells.append(f"<td class='jg' title='{int(r.games):,}G'>·</td>")
                 continue
             js.append(j)
-            tip = f"{int(r.games):,}G BB{int(r.bb)} RB{int(r.rb)} 合算1/{r.gassan:.0f}" + (f" REG1/{r.reg_den:.0f}" if pd.notna(r.reg_den) else "")
+            tip = (f"{int(r.games):,}G BB{int(r.bb)} RB{int(r.rb)} 合算1/{r.gassan:.0f}" + (f" REG1/{r.reg_den:.0f}" if pd.notna(r.reg_den) else "")
+                   + (f" 差枚{r.diff:+,.0f}（設定{int(j)}の期待{r.exp_diff:+,.0f}）" if pd.notna(r.diff) and pd.notna(r.exp_diff) else ""))
             cells.append(f"<td class='jg' style='background:{JUDGE_BG[int(j)]}' title='{E(tip)}'>{int(j)}</td>")
         avg = f"{np.mean(js):.1f}" if js else "-"
         hi = sum(1 for j in js if j >= cfg.high_min)
         rows.append(f"<tr><th>{u}</th>{''.join(cells)}<td class='num'>{avg}</td><td class='num'>{hi}</td></tr>")
     return (f"<h2>台ごとの判定設定（直近{len(dates)}日）</h2>"
-            f"<p class='note'>その日のBIG・REG（合算）から一番近い設定。REGは設定差が大きいので{cfg.reg_weight:g}倍重く見ています。"
+            f"<p class='note'>その日のBIG・REG（合算）と差枚から一番近い設定。REGは設定差が大きいので{cfg.reg_weight:g}倍重く見ています。"
+            f"差枚は、ボーナス回数から見込まれる分を差し引いた上乗せ分（小役の引き）が、設定ごとの機械割から出る期待獲得枚数に届いているかを見ています。"
             f"{cfg.judge_min_games:,}G未満の日は判定なし（·）。1日だけの判定は運でぶれるので、何日分かまとめて見てください。"
             f"マスを長押しすると回転数とボーナス回数が出ます。</p>"
             f"<div class='scroll'><table class='mini jgrid'><tr><th>台</th>{head}<th>平均</th><th>{cfg.high_min}以上</th></tr>"

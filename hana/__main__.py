@@ -261,13 +261,14 @@ def cmd_predict(cfg, db, root: Path, target: Date, open_browser=False) -> Path |
     pred = M.predict(m, target)
     pred_dir = root / "data" / "predictions"
     try:   # 台ごと・日ごとの判定設定を記録
-        j = m.hist[["date", "unit", "model", "games", "bb", "rb", "diff", "gassan", "reg_den", "judge", "p_high"]].copy()
+        j = m.hist[["date", "unit", "model", "games", "bb", "rb", "diff", "gassan", "reg_den", "judge", "exp_diff", "p_high"]].copy()
         j["date"] = j["date"].dt.strftime("%Y-%m-%d")
         j["gassan"] = j["gassan"].round(1)
         j["reg_den"] = j["reg_den"].round(1)
         j["judge"] = j["judge"].astype("Int64")
+        j["exp_diff"] = j["exp_diff"].round(0).astype("Int64")
         j["p_high"] = j["p_high"].round(3)
-        j.columns = ["日付", "台番", "機種", "G数", "BIG", "REG", "差枚", "合算分母", "REG分母", "判定設定", "高設定確率"]
+        j.columns = ["日付", "台番", "機種", "G数", "BIG", "REG", "差枚", "合算分母", "REG分母", "判定設定", "判定設定の期待差枚", "高設定確率"]
         j.sort_values(["日付", "台番"]).to_csv(root / "data" / "daily_settings.csv", index=False, encoding="utf-8")
     except Exception as e:
         log.warning("判定設定の記録に失敗: %s", e)
