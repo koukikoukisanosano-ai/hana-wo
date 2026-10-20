@@ -57,11 +57,13 @@ def prepare(units: pd.DataFrame, cfg: Settings) -> tuple[pd.DataFrame, np.ndarra
     df = df.dropna(subset=["games", "bb", "rb"])
     df["date"] = pd.to_datetime(df["date"])
     df, prior = add_estimates(df, high_min=cfg.high_min, min_games=300, judge_min_games=cfg.judge_min_games)
-    info = np.clip(df["games"].to_numpy(float) / 6000.0, 0.0, 1.0)
-    info = np.where(df["games"] < cfg.label_min_games, 0.0, info)
+    # 答え = その日の合算で「設定{high_min}以上」と判定されたか（サイトの判定設定表と同じ物差し）。
+    # 判定できない日（G数不足）は学習に使わない。
+    judged = df["judge"].notna().to_numpy()
+    info = np.where(judged, 1.0, 0.0)
     info = np.where(df.get("est", 0) == 1, info * 0.5, info)
     df["w"] = info
-    df["y"] = df["p_high"].fillna(0.0)
+    df["y"] = (df["judge"] >= cfg.high_min).astype(float).where(judged, 0.0)
     return df.sort_values(["date", "unit"]).reset_index(drop=True), prior
 
 
@@ -276,7 +278,7 @@ def build_X(rows: pd.DataFrame, hist: pd.DataFrame, hall: pd.DataFrame, cutoff_c
     return X
 
 
-PREV_FACTORS = ("f_prevdiff", "f_prevhigh", "f_streak", "f_seq2", "f_seq3")
+PREV_FACTORS = ("f_prevdiff", "f_prevhigh", "f_streak")   # 判定の流れは前日がなくても最新日までで代用するので外す
 
 
 def neutralize_prev(X: pd.DataFrame, rows: pd.DataFrame) -> None:
@@ -382,8 +384,13 @@ def candidates(model: Model, target: Date) -> pd.DataFrame:
     cur["streak"] = [int((lastrows.loc[u, "streak"] + 1) if (ok.get(u, False) and lows.get(u, False)) else 0)
                      for u in cur["unit"]]
     jd = df.dropna(subset=["judge"]).set_index(["unit", "date"])["judge"]
+    # 前日のデータがまだ公開されていない朝は、取れている最新日までの流れで代用する
+    have = set(df.dropna(subset=["judge"])["date"])
+    off = 0
+    while off < 3 and (t - pd.Timedelta(days=1 + off)) not in have:
+        off += 1
     for k in (1, 2, 3):
-        dk = t - pd.Timedelta(days=k)
+        dk = t - pd.Timedelta(days=k + off)
         cur[f"st{k}"] = [judge_state([jd.get((u, dk), np.nan)])[0] for u in cur["unit"]]
     cur["recent_judge"], cur["recent_n"] = recent_judge(df, cur["unit"].to_numpy(),
                                                         np.full(len(cur), np.datetime64(t)))

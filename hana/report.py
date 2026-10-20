@@ -379,7 +379,7 @@ def build(model: M.Model, pred: pd.DataFrame, target: Date, hall_name: str, top_
             parts.append(f"<div><h3 style='font-size:15px;margin:6px 0'>店全体（全機種）の平均差枚・日付末尾別</h3>"
                          f"<table class='mini'><tr><th>日付</th><th>平均差枚/台</th><th>日数</th></tr>{rows}</table>"
                          f"<p class='note'>{span[0]}〜{span[1]}（{span[2]}日）</p></div>")
-        habit = (f"<h2>学習した店の癖</h2><p class='note'>高設定率 = BB・REG回数から推定した「設定{cfg.high_min}以上だった確率」の平均"
+        habit = (f"<h2>学習した店の癖</h2><p class='note'>高設定率 = その日の合算で「設定{cfg.high_min}以上」と判定された台の割合"
                  f"（ゲーム数が少ない日は重みを下げて集計）。全体平均は {base*100:.1f}%。日数が少ない条件は偶然の可能性があります。</p>"
                  f"<div class='grid2'>{''.join(p for p in parts if p)}</div>")
 
