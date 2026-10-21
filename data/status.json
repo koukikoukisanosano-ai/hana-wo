@@ -1,8 +1,8 @@
 {
  "mode": "phone",
  "inbox_issue": 1,
- "phone_last": "2026-10-21 08:30",
- "phone_result": "ok",
- "phone_message": "1日分を受信（10/20）",
+ "phone_last": "2026-10-22 08:30",
+ "phone_result": "nodata",
+ "phone_message": "0日分を受信",
  "phone_ok": "2026-10-21 08:30"
 }
